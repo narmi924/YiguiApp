@@ -28,73 +28,79 @@ struct DesignView: View {
                             .foregroundColor(.textPrimary)
                     }
                     .shadow(color: .black.opacity(0.35), radius: 3, x: 0, y: 3)
-                    .padding(.top, 20)
+                    .padding(.top, 10)
                     
-                    // 设计预览区域
-                    if let currentDesign = viewModel.currentDesign {
-                        DesignPreviewView(design: currentDesign)
-                            .frame(height: 400)
-                            .padding()
-                            .animation(.easeInOut, value: viewModel.selectedFabricType)
-                            .animation(.easeInOut, value: viewModel.selectedPattern)
-                            .animation(.easeInOut, value: viewModel.selectedColor)
-                    } else {
-                        VStack {
-                            Image(systemName: "tshirt.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100, height: 100)
-                                .foregroundColor(.gray)
+                    // 内容区域使用ScrollView包装
+                    ScrollView {
+                        VStack(spacing: 10) {
+                            // 设计预览区域
+                            if let currentDesign = viewModel.currentDesign {
+                                DesignPreviewView(design: currentDesign)
+                                    .frame(height: 400)
+                                    .padding()
+                                    .animation(.easeInOut, value: viewModel.selectedFabricType)
+                                    .animation(.easeInOut, value: viewModel.selectedPattern)
+                                    .animation(.easeInOut, value: viewModel.selectedColor)
+                            } else {
+                                VStack {
+                                    Image(systemName: "tshirt.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 100, height: 100)
+                                        .foregroundColor(.gray)
+                                        .padding()
+                                    
+                                    Text("创建一个新设计或选择现有设计")
+                                        .font(.custom("MF DianHei", size: 20))
+                                        .foregroundColor(.gray)
+                                }
+                                .frame(height: 400)
                                 .padding()
+                            }
                             
-                            Text("创建一个新设计或选择现有设计")
-                                .font(.custom("MF DianHei", size: 20))
-                                .foregroundColor(.gray)
-                        }
-                        .frame(height: 400)
-                        .padding()
-                    }
-                    
-                    // 设计工具栏
-                    if viewModel.currentDesign != nil {
-                        designToolbar
-                    } else {
-                        // 创建新设计按钮
-                        Button(action: {
-                            showingTypeSelection = true
-                        }) {
-                            Text("创建新设计")
-                                .primaryButtonStyle()
-                        }
-                        .padding(.horizontal, 50)
-                    }
-                    
-                    // 现有设计列表
-                    if !viewModel.designs.isEmpty {
-                        HStack {
-                            Text("我的设计")
-                                .font(.custom("MF DianHei", size: 20))
-                                .foregroundColor(.textPrimary)
+                            // 设计工具栏
+                            if viewModel.currentDesign != nil {
+                                designToolbar
+                            } else {
+                                // 创建新设计按钮
+                                Button(action: {
+                                    showingTypeSelection = true
+                                }) {
+                                    Text("创建新设计")
+                                        .primaryButtonStyle()
+                                }
+                                .padding(.horizontal, 50)
+                            }
                             
-                            Spacer()
-                        }
-                        .padding(.horizontal)
-                        .padding(.top)
-                        
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 15) {
-                                ForEach(viewModel.designs) { design in
-                                    DesignItemView(design: design)
-                                        .onTapGesture {
-                                            viewModel.currentDesign = design
+                            // 现有设计列表
+                            if !viewModel.designs.isEmpty {
+                                HStack {
+                                    Text("我的设计")
+                                        .font(.custom("MF DianHei", size: 20))
+                                        .foregroundColor(.textPrimary)
+                                    
+                                    Spacer()
+                                }
+                                .padding(.horizontal)
+                                .padding(.top)
+                                
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 15) {
+                                        ForEach(viewModel.designs) { design in
+                                            DesignItemView(design: design)
+                                                .onTapGesture {
+                                                    viewModel.currentDesign = design
+                                                }
                                         }
+                                    }
+                                    .padding()
                                 }
                             }
-                            .padding()
+                            
+                            // 添加底部间距，确保内容可以完全滚动
+                            Spacer().frame(height: 50)
                         }
                     }
-                    
-                    Spacer()
                 }
                 .padding(.top)
                 .sheet(isPresented: $showingTypeSelection) {

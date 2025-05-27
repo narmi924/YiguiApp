@@ -1,7 +1,6 @@
 import Foundation
 import Combine
 import SwiftUI
-// import AuthenticationServices // 注释掉Apple登录相关导入
 
 class AuthViewModel: ObservableObject {
     @Published var user: User?
@@ -233,49 +232,7 @@ class AuthViewModel: ObservableObject {
         resendCountdown = 0
     }
     
-    // MARK: - Apple登录（注释掉，但保留代码）
-    
-    /*
-    // Apple登录
-    func signInWithApple(userIdentifier: String, email: String?, fullName: PersonNameComponents?) {
-        isLoading = true
-        error = nil
-        
-        // 调用Apple登录API
-        Task {
-            do {
-                // 发起Apple登录请求
-                let response = try await networkService.appleSignIn(
-                    userIdentifier: userIdentifier,
-                    email: email,
-                    fullName: fullName
-                )
-                
-                // 保存token
-                UserDefaults.standard.set(response.token, forKey: "token")
-                
-                // 获取用户信息
-                await fetchUserInfo(token: response.token)
-                
-                // 更新UI状态
-                await MainActor.run {
-                    isLoggedIn = true
-                    isLoading = false
-                }
-            } catch let networkError as NetworkError {
-                await MainActor.run {
-                    self.error = networkError.localizedDescription
-                    self.isLoading = false
-                }
-            } catch {
-                await MainActor.run {
-                    self.error = "登录失败: \(error.localizedDescription)"
-                    self.isLoading = false
-                }
-            }
-        }
-    }
-    */
+
     
     // 获取用户信息
     private func fetchUserInfo(token: String) async {
@@ -283,19 +240,27 @@ class AuthViewModel: ObservableObject {
             let userResponse = try await networkService.getCurrentUser(token: token)
             
             await MainActor.run {
-                // 创建用户对象，使用当前输入的邮箱
+                // 创建用户对象，使用服务器返回的邮箱和昵称
                 var avatarURL: URL? = nil
                 if let avatarURLString = userResponse.avatarURL {
                     avatarURL = URL(string: avatarURLString)
                 }
                 
+                // 优先使用服务器返回的信息，如果为nil则使用本地输入的信息
+                let userEmail = userResponse.email.isEmpty ? self.email : userResponse.email
+                let userNickname = userResponse.nickname ?? (self.nickname.isEmpty ? "用户\(Int.random(in: 1000...9999))" : self.nickname)
+                
                 self.user = User(
-                    email: self.email, // 使用当前输入的邮箱
-                    nickname: self.nickname.isEmpty ? "用户\(Int.random(in: 1000...9999))" : self.nickname,
+                    email: userEmail,
+                    nickname: userNickname,
                     height: userResponse.height,
                     weight: userResponse.weight,
                     avatarURL: avatarURL
                 )
+                
+                // 同步本地变量
+                self.email = userEmail
+                self.nickname = userNickname
                 
                 // 保存用户状态
                 self.saveUserState()

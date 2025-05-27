@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct WelcomeView: View {
+    @ObservedObject var appStateManager: AppStateManager
     @State private var currentPage = 0
-    @State private var navigateToSignIn = false
     
     // 为Splash页定义动画状态
     @State private var scale: CGFloat = 0.7
@@ -11,44 +11,40 @@ struct WelcomeView: View {
     @State private var initialAnimationCompleted = false
     
     var body: some View {
-        if navigateToSignIn {
-            SignInView()
-        } else {
-            ZStack {
-                Color.background.ignoresSafeArea()
+        ZStack {
+            Color.background.ignoresSafeArea()
+            
+            TabView(selection: $currentPage) {
+                // 第一页：原Splash页内容
+                splashPage
+                    .tag(0)
                 
-                TabView(selection: $currentPage) {
-                    // 第一页：原Splash页内容
-                    splashPage
-                        .tag(0)
-                    
-                    // 第二页：欢迎页1
-                    welcomePage1
-                        .tag(1)
-                    
-                    // 第三页：欢迎页2
-                    welcomePage2
-                        .tag(2)
-                }
-                .tabViewStyle(PageTabViewStyle())
-                .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .never))
-                .edgesIgnoringSafeArea(.all)
-                .statusBar(hidden: true)
+                // 第二页：欢迎页1
+                welcomePage1
+                    .tag(1)
+                
+                // 第三页：欢迎页2
+                welcomePage2
+                    .tag(2)
             }
-            .onAppear {
-                // 初始页面动画
-                withAnimation(.easeIn(duration: 1.2)) {
-                    self.scale = 1.0
-                    self.opacity = 1.0
-                }
-                
-                // 2秒后自动滑向第二页
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    withAnimation(.easeInOut(duration: 0.8)) {
-                        self.rightCircleOffset = -500
-                        self.initialAnimationCompleted = true
-                        self.currentPage = 1
-                    }
+            .tabViewStyle(PageTabViewStyle())
+            .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .never))
+            .edgesIgnoringSafeArea(.all)
+            .statusBar(hidden: true)
+        }
+        .onAppear {
+            // 初始页面动画
+            withAnimation(.easeIn(duration: 1.2)) {
+                self.scale = 1.0
+                self.opacity = 1.0
+            }
+            
+            // 2秒后自动滑向第二页
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                withAnimation(.easeInOut(duration: 0.8)) {
+                    self.rightCircleOffset = -500
+                    self.initialAnimationCompleted = true
+                    self.currentPage = 1
                 }
             }
         }
@@ -317,7 +313,7 @@ struct WelcomeView: View {
             // 按钮
             Button(action: {
                 withAnimation(.easeInOut) {
-                    navigateToSignIn = true
+                    appStateManager.rootViewState = .signIn
                 }
             }) {
                 Text("开始使用")
@@ -331,6 +327,6 @@ struct WelcomeView: View {
 
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView()
+        WelcomeView(appStateManager: AppStateManager())
     }
 } 

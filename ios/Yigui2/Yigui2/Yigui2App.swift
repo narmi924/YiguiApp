@@ -7,13 +7,50 @@
 
 import SwiftUI
 
+// 应用状态管理器
+class AppStateManager: ObservableObject {
+    @Published var rootViewState: RootViewState = .welcome
+}
+
+enum RootViewState {
+    case welcome
+    case signIn
+    case defaultInfo
+    case mainApp
+}
+
 @main
 struct Yigui2App: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @StateObject private var appStateManager = AppStateManager()
+    @StateObject private var authViewModel = AuthViewModel()
     
     var body: some Scene {
         WindowGroup {
-            WelcomeView()
+            Group {
+                switch appStateManager.rootViewState {
+                case .welcome:
+                    WelcomeView(appStateManager: appStateManager)
+                case .signIn:
+                    SignInView(appStateManager: appStateManager, authViewModel: authViewModel)
+                case .defaultInfo:
+                    DefaultInfoView(appStateManager: appStateManager, authViewModel: authViewModel)
+                case .mainApp:
+                    MainTabView(appStateManager: appStateManager, authViewModel: authViewModel)
+                }
+            }
+            .onAppear {
+                checkLoginState()
+            }
+        }
+    }
+    
+    // 检查登录状态
+    private func checkLoginState() {
+        // 如果已登录，直接跳转到主应用
+        if authViewModel.isLoggedIn || UserDefaults.standard.bool(forKey: "isLoggedIn") {
+            authViewModel.loadUserState()
+            appStateManager.rootViewState = .mainApp
         }
     }
 }

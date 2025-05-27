@@ -25,7 +25,7 @@ struct WardrobeView: View {
                             .foregroundColor(.textPrimary)
                     }
                     .shadow(color: .black.opacity(0.35), radius: 3, x: 0, y: 3)
-                    .padding(.top, 20)
+                    .padding(.top, 10)
                     
                     // 分类标签栏
                     ScrollView(.horizontal, showsIndicators: false) {

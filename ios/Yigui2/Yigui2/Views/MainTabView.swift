@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @ObservedObject var appStateManager: AppStateManager
+    @ObservedObject var authViewModel: AuthViewModel
     @State private var selectedTab = 0
     
     var body: some View {
@@ -30,7 +32,7 @@ struct MainTabView: View {
                 .tag(2)
             
             // 我的标签
-            ProfileView()
+            ProfileView(appStateManager: appStateManager, authViewModel: authViewModel)
                 .tabItem {
                     Image(systemName: "person.crop.circle.fill")
                     Text("我的")
@@ -86,5 +88,5 @@ struct TopTabBar: View {
 }
 
 #Preview {
-    MainTabView()
+    MainTabView(appStateManager: AppStateManager(), authViewModel: AuthViewModel())
 } 

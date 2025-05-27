@@ -2,154 +2,151 @@ import SwiftUI
 // import AuthenticationServices // 注释掉Apple登录相关导入
 
 struct SignInView: View {
-    @StateObject private var authViewModel = AuthViewModel()
+    @ObservedObject var appStateManager: AppStateManager
+    @ObservedObject var authViewModel: AuthViewModel
     @State private var isSignIn = true
-    @State private var navigateToDefaultInfo = false
     
     var body: some View {
-        if navigateToDefaultInfo {
-            DefaultInfoView(authViewModel: authViewModel)
-        } else {
-            ZStack {
-                Color.background.ignoresSafeArea()
-                
-                ScrollView {
-                    VStack(spacing: 15) {
-                        // 应用标题 - 使用特殊样式，只有U是主题色
-                        HStack(spacing: 0) {
-                            Text("Yig")
-                                .font(.custom("Epilogue", size: 48))
-                                .foregroundColor(.textPrimary)
-                            
-                            Text("U")
-                                .font(.custom("Epilogue", size: 48))
-                                .foregroundColor(.themeColor)
-                            
-                            Text("i")
-                                .font(.custom("Epilogue", size: 48))
-                                .foregroundColor(.textPrimary)
-                        }
-                        .shadow(color: .black.opacity(0.35), radius: 3, x: 0, y: 3)
-                        .padding(.top, 30)
-                        
-                        Text("欢迎回来，你的依柜很想你")
-                            .font(.custom("MF DianHei", size: 16))
+        ZStack {
+            Color.background.ignoresSafeArea()
+            
+            ScrollView {
+                VStack(spacing: 15) {
+                    // 应用标题 - 使用特殊样式，只有U是主题色
+                    HStack(spacing: 0) {
+                        Text("Yig")
+                            .font(.custom("Epilogue", size: 48))
                             .foregroundColor(.textPrimary)
-                            .padding(.bottom, 40)
                         
-                        // 切换登录/注册说明
-                        HStack(spacing: 0) {
-                            // 登录说明
-                            Button(action: {
-                                withAnimation {
-                                    isSignIn = true
-                                    authViewModel.clearForm()
-                                }
-                            }) {
-                                Text("登录")
-                                    .tabLabelStyle(isSelected: isSignIn)
+                        Text("U")
+                            .font(.custom("Epilogue", size: 48))
+                            .foregroundColor(.themeColor)
+                        
+                        Text("i")
+                            .font(.custom("Epilogue", size: 48))
+                            .foregroundColor(.textPrimary)
+                    }
+                    .shadow(color: .black.opacity(0.35), radius: 3, x: 0, y: 3)
+                    .padding(.top, 30)
+                    
+                    Text("欢迎回来，你的依柜很想你")
+                        .font(.custom("MF DianHei", size: 16))
+                        .foregroundColor(.textPrimary)
+                        .padding(.bottom, 40)
+                    
+                    // 切换登录/注册说明
+                    HStack(spacing: 0) {
+                        // 登录说明
+                        Button(action: {
+                            withAnimation {
+                                isSignIn = true
+                                authViewModel.clearForm()
                             }
-                            
-                            // 注册说明
-                            Button(action: {
-                                withAnimation {
-                                    isSignIn = false
-                                    authViewModel.clearForm()
-                                }
-                            }) {
-                                Text("注册")
-                                    .tabLabelStyle(isSelected: !isSignIn)
-                            }
+                        }) {
+                            Text("登录")
+                                .tabLabelStyle(isSelected: isSignIn)
                         }
-                        .frame(width: 200, height: 50)
+                        
+                        // 注册说明
+                        Button(action: {
+                            withAnimation {
+                                isSignIn = false
+                                authViewModel.clearForm()
+                            }
+                        }) {
+                            Text("注册")
+                                .tabLabelStyle(isSelected: !isSignIn)
+                        }
+                    }
+                    .frame(width: 200, height: 50)
+                    .background(
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke(Color.primary, lineWidth: 2)
+                    )
+                    .padding(.bottom, 30)
+                    
+                    // 登录或注册表单
+                    VStack(spacing: 20) {
+                        if isSignIn {
+                            loginForm()
+                        } else {
+                            registerForm()
+                        }
+                    }
+                    .padding(.horizontal, 40)
+                    
+                    // 错误信息
+                    if let error = authViewModel.error {
+                        Text(error)
+                            .foregroundColor(.red)
+                            .font(.custom("MF DianHei", size: 14))
+                            .padding(.horizontal)
+                            .padding(.top, 10)
+                    }
+                    
+                    // 加载状态
+                    if authViewModel.isLoading {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: Color.primary))
+                            .scaleEffect(1.5)
+                            .padding(.top, 20)
+                    }
+                    
+                    // 开发期间的直接体验按钮
+                    Button(action: {
+                        skipLogin()
+                    }) {
+                        HStack {
+                            Image(systemName: "arrow.right.circle")
+                                .foregroundColor(.themeColor)
+                            Text("跳过登录，直接体验")
+                                .font(.custom("MF DianHei", size: 16))
+                                .foregroundColor(.themeColor)
+                        }
+                        .frame(height: 50)
+                        .frame(maxWidth: .infinity)
                         .background(
                             RoundedRectangle(cornerRadius: 25)
-                                .stroke(Color.primary, lineWidth: 2)
+                                .stroke(Color.themeColor, lineWidth: 1.5)
                         )
-                        .padding(.bottom, 30)
+                    }
+                    .padding(.horizontal, 50)
+                    .padding(.top, 15)
+                    
+                    Spacer()
+                    
+                    // 隐私说明
+                    VStack(spacing: 5) {
+                        Text("使用即表示您同意我们的")
+                            .font(.custom("MF DianHei", size: 12))
+                            .foregroundColor(.gray)
                         
-                        // 登录或注册表单
-                        VStack(spacing: 20) {
-                            if isSignIn {
-                                loginForm()
-                            } else {
-                                registerForm()
+                        HStack(spacing: 5) {
+                            Button("用户协议") {
+                                // 跳转到用户协议页面
                             }
-                        }
-                        .padding(.horizontal, 40)
-                        
-                        // 错误信息
-                        if let error = authViewModel.error {
-                            Text(error)
-                                .foregroundColor(.red)
-                                .font(.custom("MF DianHei", size: 14))
-                                .padding(.horizontal)
-                                .padding(.top, 10)
-                        }
-                        
-                        // 加载状态
-                        if authViewModel.isLoading {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: Color.primary))
-                                .scaleEffect(1.5)
-                                .padding(.top, 20)
-                        }
-                        
-                        // 开发期间的直接体验按钮
-                        Button(action: {
-                            skipLogin()
-                        }) {
-                            HStack {
-                                Image(systemName: "arrow.right.circle")
-                                    .foregroundColor(.themeColor)
-                                Text("跳过登录，直接体验")
-                                    .font(.custom("MF DianHei", size: 16))
-                                    .foregroundColor(.themeColor)
-                            }
-                            .frame(height: 50)
-                            .frame(maxWidth: .infinity)
-                            .background(
-                                RoundedRectangle(cornerRadius: 25)
-                                    .stroke(Color.themeColor, lineWidth: 1.5)
-                            )
-                        }
-                        .padding(.horizontal, 50)
-                        .padding(.top, 15)
-                        
-                        Spacer()
-                        
-                        // 隐私说明
-                        VStack(spacing: 8) {
-                            Text("登录即表示您同意我们的")
+                            .font(.custom("MF DianHei", size: 12))
+                            .foregroundColor(.themeColor)
+                            
+                            Text("和")
                                 .font(.custom("MF DianHei", size: 12))
                                 .foregroundColor(.gray)
                             
-                            HStack(spacing: 4) {
-                                Button("服务条款") {
-                                    // 打开服务条款
-                                }
-                                .font(.custom("MF DianHei", size: 12))
-                                .foregroundColor(.themeColor)
-                                
-                                Text("和")
-                                    .font(.custom("MF DianHei", size: 12))
-                                    .foregroundColor(.gray)
-                                
-                                Button("隐私政策") {
-                                    // 打开隐私政策
-                                }
-                                .font(.custom("MF DianHei", size: 12))
-                                .foregroundColor(.themeColor)
+                            Button("隐私政策") {
+                                // 跳转到隐私政策页面
                             }
+                            .font(.custom("MF DianHei", size: 12))
+                            .foregroundColor(.themeColor)
                         }
-                        .padding(.bottom, 30)
                     }
+                    .padding(.bottom, 30)
                 }
             }
-            .onChange(of: authViewModel.isLoggedIn) { isLoggedIn in
-                if isLoggedIn {
-                    navigateToDefaultInfo = true
-                }
+            .scrollDismissesKeyboard(.interactively)
+        }
+        .onReceive(authViewModel.$isLoggedIn) { isLoggedIn in
+            if isLoggedIn {
+                appStateManager.rootViewState = .defaultInfo
             }
         }
     }
@@ -324,45 +321,11 @@ struct SignInView: View {
     // 跳过登录，直接体验（开发期间使用）
     private func skipLogin() {
         authViewModel.skipLoginForDevelopment()
-        navigateToDefaultInfo = true
+        appStateManager.rootViewState = .defaultInfo
     }
     
-    // MARK: - Apple登录相关（注释掉，但保留代码）
-    
-    /*
-    // 处理Apple登录结果
-    private func handleAppleSignInResult(_ result: Result<ASAuthorization, Error>) {
-        switch result {
-        case .success(let authorization):
-            if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-                let userIdentifier = appleIDCredential.user
-                let email = appleIDCredential.email
-                let fullName = appleIDCredential.fullName
-                
-                authViewModel.signInWithApple(
-                    userIdentifier: userIdentifier,
-                    email: email,
-                    fullName: fullName
-                )
-            }
-        case .failure(let error):
-            authViewModel.error = "Apple登录失败: \(error.localizedDescription)"
-        }
-    }
-    
-    // Apple登录按钮
-    SignInWithAppleButton(.signIn) { request in
-        request.requestedScopes = [.fullName, .email]
-    } onCompletion: { result in
-        handleAppleSignInResult(result)
-    }
-    .signInWithAppleButtonStyle(.black)
-    .frame(height: 50)
-    .padding(.horizontal, 50)
-    .cornerRadius(25)
-    */
 }
 
 #Preview {
-    SignInView()
+    SignInView(appStateManager: AppStateManager(), authViewModel: AuthViewModel())
 } 
