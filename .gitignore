@@ -1,0 +1,9 @@
+*.xcworkspace
+xcuserdata/
+DerivedData/
+build/
+__pycache__/
+*.pyc
+*.log
+
+.DS_Store
