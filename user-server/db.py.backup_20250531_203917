@@ -42,6 +42,7 @@ class User(Base):
     # 新增字段
     height = Column(Integer, nullable=True)  # 身高(cm)
     weight = Column(Integer, nullable=True)  # 体重(kg)  
+    avatar_url = Column(String(500), nullable=True)  # 头像URL
     gender = Column(String(10), nullable=False, default='male')  # 添加性别字段
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -56,18 +57,4 @@ class Model(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     user = relationship("User", back_populates="models")
 
-# 头像表模型
-class Avatar(Base):
-    __tablename__ = "avatars"
-
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    filename = Column(String(255), nullable=False)  # 头像文件名
-    file_path = Column(String(500), nullable=False)  # 头像文件路径
-    is_current = Column(Integer, default=1)  # 是否为当前头像
-    created_at = Column(DateTime, default=datetime.utcnow)
-    user = relationship("User", back_populates="avatars")
-
-
-User.models = relationship("Model", back_populates="user", cascade="all, delete-orphan")
-User.avatars = relationship("Avatar", back_populates="user", cascade="all, delete-orphan") 
+User.models = relationship("Model", back_populates="user", cascade="all, delete-orphan") 

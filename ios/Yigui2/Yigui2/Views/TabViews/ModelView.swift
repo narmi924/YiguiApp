@@ -3,7 +3,7 @@ import SceneKit
 
 struct ModelView: View {
     @StateObject private var viewModel = ModelViewModel()
-    @State private var showingModelForm = false
+    @ObservedObject var authViewModel: AuthViewModel
     @State private var showingModelList = false
     @State private var isFirstAppear = true
     @State private var showDeleteConfirmation = false
@@ -100,14 +100,14 @@ struct ModelView: View {
                     
                     // 底部按钮区域 - 移到靠近菜单栏的位置
                     HStack(spacing: 20) {
-                        // 创建新模型按钮
+                        // 重新生成模型按钮
                         Button(action: {
-                            showingModelForm = true
+                            viewModel.generateModelFromUserProfile()
                         }) {
                             HStack {
-                                Image(systemName: "plus.circle.fill")
+                                Image(systemName: "arrow.clockwise.circle.fill")
                                     .font(.system(size: 16))
-                                Text("创建新模型")
+                                Text("重新生成")
                             }
                             .primaryButtonStyle()
                         }
@@ -130,9 +130,6 @@ struct ModelView: View {
                     .padding(.bottom, 10) // 确保按钮与菜单栏有适当的间距
                 }
                 .padding(.top)
-                .sheet(isPresented: $showingModelForm) {
-                    ModelFormView(viewModel: viewModel)
-                }
                 .sheet(isPresented: $showingModelList) {
                     ModelListView(viewModel: viewModel)
                 }
@@ -162,6 +159,10 @@ struct ModelView: View {
                     viewModel.loadModels()
                     isFirstAppear = false
                 }
+            }
+            .onReceive(authViewModel.userInfoUpdated) {
+                // 用户信息更新后，重新生成模型
+                viewModel.handleUserInfoUpdate()
             }
         }
     }
@@ -732,6 +733,6 @@ struct ModelGridItemView: View {
 
 struct ModelView_Previews: PreviewProvider {
     static var previews: some View {
-        ModelView()
+        ModelView(authViewModel: AuthViewModel())
     }
 } 

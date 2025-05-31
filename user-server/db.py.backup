@@ -42,6 +42,7 @@ class User(Base):
     # 新增字段
     height = Column(Integer, nullable=True)  # 身高(cm)
     weight = Column(Integer, nullable=True)  # 体重(kg)  
+    avatar_url = Column(String(500), nullable=True)  # 头像URL
     gender = Column(String(10), nullable=False, default='male')  # 添加性别字段
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

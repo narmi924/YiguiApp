@@ -5,7 +5,7 @@ import uuid
 
 from datetime import datetime
 
-def generate_scaled_model(gender, height, weight, texture_name=None):
+def generate_scaled_model(gender, height, weight, texture_name=None, nickname=None):
     base_dir = "/root/model-server"
     base_model_path = os.path.join(base_dir, "base_models", f"{gender}.glb")
 
@@ -16,9 +16,12 @@ def generate_scaled_model(gender, height, weight, texture_name=None):
         if os.path.exists(candidate):
             texture_path = candidate
 
-    # ==== 生成临时目录 & 输出路径 ====
+    # ==== 针对用户创建目录 & 输出路径 ====
+    if not nickname:
+        raise RuntimeError("必须提供 nickname")
     timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-    output_dir = "generated_models"
+    # 用户专属模型文件夹
+    output_dir = os.path.join(base_dir, "generated_models", f"{nickname}_models")
     os.makedirs(output_dir, exist_ok=True)
     output_glb = os.path.join(output_dir, f"{timestamp}.glb")
 
@@ -39,7 +42,7 @@ def generate_scaled_model(gender, height, weight, texture_name=None):
     if not os.path.exists(output_glb):
         raise RuntimeError(f"GLB文件生成失败: {output_glb}")
 
-    # 直接返回GLB文件的URL，不再打包成zip
+    # 直接返回用户专属子目录下的 URL
     return {
-         "glb_url": f"https://yiguiapp.xyz/models/{timestamp}.glb"
-}
+        "glb_url": f"https://yiguiapp.xyz/models/{nickname}_models/{timestamp}.glb"
+    }

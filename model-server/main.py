@@ -11,10 +11,14 @@ class ModelInput(BaseModel):
     weight: float
     age: int
     texture: str = None  # 可选贴图文件名
+    nickname: str
 
 @app.post("/generate")
 def generate_model(input: ModelInput):
-    result = generate_scaled_model(input.gender, input.height, input.weight, input.texture)
+    result = generate_scaled_model(
+        input.gender, input.height, input.weight, input.texture,
+        input.nickname
+    )
     return result
 
 app.mount("/models", StaticFiles(directory="generated_models"), name="models")

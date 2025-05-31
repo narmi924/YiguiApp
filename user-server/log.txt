@@ -1,640 +1,72 @@
 nohup: ignoring input
-INFO:     Started server process [497656]
+INFO:     Started server process [3164628]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
-INFO:     127.0.0.1:54920 - "POST /register HTTP/1.0" 400 Bad Request
-INFO:     127.0.0.1:60500 - "POST /login HTTP/1.0" 401 Unauthorized
-INFO:     127.0.0.1:60516 - "POST /login HTTP/1.0" 401 Unauthorized
-INFO:     127.0.0.1:44544 - "POST /login HTTP/1.0" 401 Unauthorized
-INFO:     127.0.0.1:44548 - "POST /login HTTP/1.0" 401 Unauthorized
-INFO:     127.0.0.1:44562 - "POST /login HTTP/1.0" 401 Unauthorized
-INFO:     127.0.0.1:44568 - "POST /login HTTP/1.0" 401 Unauthorized
-INFO:     127.0.0.1:44582 - "POST /login HTTP/1.0" 200 OK
-INFO:     127.0.0.1:36766 - "POST /register HTTP/1.0" 200 OK
-INFO:     127.0.0.1:37400 - "POST /verify HTTP/1.0" 200 OK
-INFO:     127.0.0.1:37410 - "POST /login HTTP/1.0" 200 OK
-INFO:     127.0.0.1:40748 - "POST /register HTTP/1.0" 400 Bad Request
-INFO:     127.0.0.1:33150 - "POST /login HTTP/1.0" 200 OK
-INFO:     127.0.0.1:34026 - "POST /login HTTP/1.0" 401 Unauthorized
-INFO:     127.0.0.1:34040 - "POST /login HTTP/1.0" 200 OK
-INFO:     127.0.0.1:40116 - "POST /login HTTP/1.0" 200 OK
-INFO:     127.0.0.1:36754 - "POST /login HTTP/1.0" 200 OK
+INFO:     127.0.0.1:35764 - "GET /user_info?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMywiZW1haWwiOiIyNzg1NTY1Mzg5QHFxLmNvbSIsIm5pY2tuYW1lIjoiTmV5bWFyIiwiZ2VuZGVyIjoiZmVtYWxlIn0.YOSJX-x1Y0TtpdWDEjy07YgYG08M1SjEzwqMLsTFc9I HTTP/1.0" 404 Not Found
+INFO:     127.0.0.1:47190 - "POST /register HTTP/1.0" 200 OK
+INFO:     127.0.0.1:48882 - "POST /verify HTTP/1.0" 200 OK
+INFO:     127.0.0.1:48896 - "POST /login HTTP/1.0" 200 OK
+INFO:     127.0.0.1:48908 - "GET /user_info?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiIyNzg1NTY1Mzg5QHFxLmNvbSIsIm5pY2tuYW1lIjoiXHU3NTI4XHU2MjM3MzE5MyIsImdlbmRlciI6Im1hbGUifQ.6fnzMgGBKuUx9YuopWrnYhqT3anxa_JoISzIGu7Fk28 HTTP/1.0" 200 OK
+更新身高: 178
+更新体重: 78
+更新性别: male -> female
+更新昵称: 用户3193 -> Cristina’s
+生成新token，包含更新后的信息: nickname=Cristina’s, gender=female
+INFO:     127.0.0.1:46780 - "POST /update_user_info HTTP/1.0" 200 OK
+头像保存成功: /var/www/avatars/Cristina’s_avatar/avatar_20250531_214340.jpg
+更新头像: https://yiguiapp.xyz/avatars/Cristina’s_avatar/avatar_20250531_214340.jpg
+INFO:     127.0.0.1:46792 - "POST /update_user_info HTTP/1.0" 200 OK
+INFO:     127.0.0.1:46794 - "GET /user_info?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiIyNzg1NTY1Mzg5QHFxLmNvbSIsIm5pY2tuYW1lIjoiQ3Jpc3RpbmFcdTIwMTlzIiwiZ2VuZGVyIjoiZmVtYWxlIn0.cuJP_7tF1cZs9jX_eYNudGvIWnR5TXUbWDwzcVuWAT4 HTTP/1.0" 200 OK
+更新身高: 175
+更新体重: 79
+INFO:     127.0.0.1:53886 - "POST /update_user_info HTTP/1.0" 200 OK
+头像保存成功: /var/www/avatars/Cristina’s_avatar/avatar_20250531_214358.jpg
+更新头像: https://yiguiapp.xyz/avatars/Cristina’s_avatar/avatar_20250531_214358.jpg
+INFO:     127.0.0.1:53900 - "POST /update_user_info HTTP/1.0" 200 OK
+INFO:     127.0.0.1:53902 - "GET /user_info?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiIyNzg1NTY1Mzg5QHFxLmNvbSIsIm5pY2tuYW1lIjoiQ3Jpc3RpbmFcdTIwMTlzIiwiZ2VuZGVyIjoiZmVtYWxlIn0.cuJP_7tF1cZs9jX_eYNudGvIWnR5TXUbWDwzcVuWAT4 HTTP/1.0" 200 OK
+INFO:     127.0.0.1:53172 - "POST /login HTTP/1.0" 200 OK
+INFO:     127.0.0.1:53174 - "GET /user_info?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiIyNzg1NTY1Mzg5QHFxLmNvbSIsIm5pY2tuYW1lIjoiQ3Jpc3RpbmFcdTIwMTlzIiwiZ2VuZGVyIjoiZmVtYWxlIn0.cuJP_7tF1cZs9jX_eYNudGvIWnR5TXUbWDwzcVuWAT4 HTTP/1.0" 200 OK
+INFO:     127.0.0.1:42224 - "GET /user_info?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiIyNzg1NTY1Mzg5QHFxLmNvbSIsIm5pY2tuYW1lIjoiQ3Jpc3RpbmFcdTIwMTlzIiwiZ2VuZGVyIjoiZmVtYWxlIn0.cuJP_7tF1cZs9jX_eYNudGvIWnR5TXUbWDwzcVuWAT4 HTTP/1.0" 200 OK
+更新身高: 175
+更新体重: 79
+INFO:     127.0.0.1:42236 - "POST /update_user_info HTTP/1.0" 200 OK
+头像保存成功: /var/www/avatars/Cristina’s_avatar/avatar_20250531_214424.jpg
+更新头像: https://yiguiapp.xyz/avatars/Cristina’s_avatar/avatar_20250531_214424.jpg
+INFO:     127.0.0.1:42240 - "POST /update_user_info HTTP/1.0" 200 OK
+INFO:     127.0.0.1:56922 - "GET /user_info?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiIyNzg1NTY1Mzg5QHFxLmNvbSIsIm5pY2tuYW1lIjoiQ3Jpc3RpbmFcdTIwMTlzIiwiZ2VuZGVyIjoiZmVtYWxlIn0.cuJP_7tF1cZs9jX_eYNudGvIWnR5TXUbWDwzcVuWAT4 HTTP/1.0" 200 OK
+INFO:     127.0.0.1:35870 - "GET /user_info?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiIyNzg1NTY1Mzg5QHFxLmNvbSIsIm5pY2tuYW1lIjoiQ3Jpc3RpbmFcdTIwMTlzIiwiZ2VuZGVyIjoiZmVtYWxlIn0.cuJP_7tF1cZs9jX_eYNudGvIWnR5TXUbWDwzcVuWAT4 HTTP/1.0" 200 OK
+INFO:     127.0.0.1:35874 - "GET /user_info?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiIyNzg1NTY1Mzg5QHFxLmNvbSIsIm5pY2tuYW1lIjoiQ3Jpc3RpbmFcdTIwMTlzIiwiZ2VuZGVyIjoiZmVtYWxlIn0.cuJP_7tF1cZs9jX_eYNudGvIWnR5TXUbWDwzcVuWAT4 HTTP/1.0" 200 OK
+INFO:     127.0.0.1:37804 - "GET /user_info?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiIyNzg1NTY1Mzg5QHFxLmNvbSIsIm5pY2tuYW1lIjoiQ3Jpc3RpbmFcdTIwMTlzIiwiZ2VuZGVyIjoiZmVtYWxlIn0.cuJP_7tF1cZs9jX_eYNudGvIWnR5TXUbWDwzcVuWAT4 HTTP/1.0" 200 OK
+INFO:     127.0.0.1:40336 - "GET /user_info?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiIyNzg1NTY1Mzg5QHFxLmNvbSIsIm5pY2tuYW1lIjoiQ3Jpc3RpbmFcdTIwMTlzIiwiZ2VuZGVyIjoiZmVtYWxlIn0.cuJP_7tF1cZs9jX_eYNudGvIWnR5TXUbWDwzcVuWAT4 HTTP/1.0" 200 OK
+INFO:     127.0.0.1:40340 - "GET /user_info?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNCwiZW1haWwiOiIyNzg1NTY1Mzg5QHFxLmNvbSIsIm5pY2tuYW1lIjoiQ3Jpc3RpbmFcdTIwMTlzIiwiZ2VuZGVyIjoiZmVtYWxlIn0.cuJP_7tF1cZs9jX_eYNudGvIWnR5TXUbWDwzcVuWAT4 HTTP/1.0" 200 OK
 WARNING:  Invalid HTTP request received.
-INFO:     8.219.153.200:40998 - "GET / HTTP/1.1" 404 Not Found
-INFO:     8.219.153.200:41046 - "GET /robots.txt HTTP/1.1" 404 Not Found
-INFO:     8.219.153.200:41044 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-INFO:     8.219.153.200:41048 - "GET /sitemap.xml HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:57772 - "POST /login HTTP/1.0" 200 OK
-INFO:     127.0.0.1:49622 - "POST /login HTTP/1.0" 200 OK
-INFO:     59.83.208.108:17436 - "GET / HTTP/1.1" 404 Not Found
-INFO:     220.196.160.61:17736 - "GET / HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:41094 - "GET /config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41096 - "GET / HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41110 - "POST /init HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41118 - "GET /ping HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41126 - "GET /c/a HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41138 - "POST /notice HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41148 - "GET /config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41164 - "GET /version HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41166 - "POST /v1/check HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41170 - "GET /v1/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41172 - "GET /index/init HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41184 - "GET /shop/getKF HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41192 - "GET /apps/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41208 - "GET /Event/basic HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41220 - "GET /front/index HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41234 - "GET /index/index HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41248 - "GET /common/init HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41254 - "GET /index/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41260 - "GET /app/indexList HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41262 - "GET /common/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41266 - "GET /Home/videoNew HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41272 - "GET /uploads/apimap HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41276 - "GET /user/getconfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41282 - "GET /common/configs HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41290 - "GET /message/webInfo HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41300 - "GET /index/webconfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41316 - "GET /site/getInfo.do HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41320 - "GET /index/gettreaty HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41330 - "GET /index/grailindex HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41346 - "GET /shares/hqStrList HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41352 - "GET /getWebSiteConfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41358 - "POST /user/ismustmobile HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41368 - "GET /user/ismustmobile HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41384 - "POST /user/ismustmobile HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41390 - "GET /user/ismustmobile HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41404 - "GET /index/productshow HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41412 - "GET /get_workerman_url HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41428 - "GET /system/notice/find HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41430 - "GET /v1/base/downloadAPP HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41440 - "GET /wanlshop/common/init HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41454 - "GET /banner?appKey=bxefdn HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41464 - "GET /Config/getShowConfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41470 - "GET /client/app/config.do HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41478 - "GET /product/getPointStore HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41492 - "GET /dict/getServiceConfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41506 - "GET /vue/transaction/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41522 - "GET /currency/quotation_new HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41538 - "GET /platform/getSundryData HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41548 - "GET /ServerMember/getChatList HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41560 - "GET /common/menus?lang=zh-Hans HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41566 - "GET /appVersion?mobile_system=2 HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41582 - "GET /public/?service=Home.getConfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41584 - "GET /unSecurity/app/listAppVersionInfo HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41600 - "GET /api/exchangerateuserconfig%21get.action HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41616 - "POST /system/systemConfigs/getCustomerServiceLink HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41620 - "GET /v/index/queryOfficePage?officeCode=customHomeLink HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:41626 - "POST /heartbeat HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:56702 - "GET /v1/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:56712 - "GET /index/init HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:56718 - "GET /shop/getKF HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:56734 - "GET /apps/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:56740 - "GET /Event/basic HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:56748 - "GET /front/index HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:56760 - "GET /common/init HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:56768 - "GET /index/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:56772 - "GET /app/indexList HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:56788 - "GET /common/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:49352 - "GET /Home/videoNew HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:49368 - "GET /uploads/apimap HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:49380 - "GET /common/configs HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:49392 - "GET /site/getInfo.do HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:49408 - "GET /message/webInfo HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:49414 - "GET /index/webconfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:49426 - "GET /index/gettreaty HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:49430 - "GET /shares/hqStrList HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:49444 - "GET /user/ismustmobile HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:46392 - "GET /system/notice/find HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:46394 - "GET /v1/base/downloadAPP HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:46400 - "GET /banner?appKey=bxefdn HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:46404 - "GET /client/app/config.do HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:46412 - "GET /product/getPointStore HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:46424 - "GET /currency/quotation_new HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:46436 - "GET /vue/transaction/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:46438 - "GET /platform/getSundryData HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:45266 - "GET /common/menus?lang=zh-Hans HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:45272 - "GET /appVersion?mobile_system=2 HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:45276 - "GET /public/?service=Home.getConfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:45284 - "GET /unSecurity/app/listAppVersionInfo HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54344 - "GET /v/index/queryOfficePage?officeCode=customHomeLink HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54354 - "GET /im/v2/app/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54366 - "GET /config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54376 - "GET /c/a HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54388 - "GET /ping HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54404 - "GET /config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54420 - "GET /notice HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54422 - "GET /version HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54424 - "GET /v1/check HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54436 - "GET /v1/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54444 - "GET /shop/getKF HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54460 - "GET /apps/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54472 - "GET /index/init HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54478 - "GET /Event/basic HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54486 - "GET /common/init HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54502 - "GET /front/index HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54512 - "GET /index/index HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54520 - "GET /index/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54532 - "GET /common/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54538 - "GET /app/indexList HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54546 - "GET /Home/videoNew HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54552 - "GET /uploads/apimap HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54564 - "GET /user/getconfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54580 - "GET /common/configs HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54588 - "GET /site/getInfo.do HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:54596 - "GET /index/webconfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42438 - "GET /message/webInfo HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42448 - "GET /index/gettreaty HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42454 - "GET /index/grailindex HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42466 - "GET /shares/hqStrList HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42472 - "GET /user/ismustmobile HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42474 - "GET /user/ismustmobile HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42480 - "GET /user/ismustmobile HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42494 - "GET /get_workerman_url HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42508 - "GET /system/notice/find HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42516 - "GET /v1/base/downloadAPP HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42530 - "GET /wanlshop/common/init HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42544 - "GET /client/app/config.do HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42546 - "GET /Config/getShowConfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42550 - "GET /product/getPointStore HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42556 - "GET /currency/quotation_new HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42566 - "GET /dict/getServiceConfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42570 - "GET /vue/transaction/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42586 - "GET /platform/getSundryData HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42600 - "GET /ServerMember/getChatList HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42606 - "GET /common/menus?lang=zh-Hans HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42608 - "GET /appVersion?mobile_system=2 HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42612 - "GET /public/?service=Home.getConfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42620 - "GET /unSecurity/app/listAppVersionInfo HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42622 - "GET /api/exchangerateuserconfig%21get.action HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42636 - "GET /v/index/queryOfficePage?officeCode=customHomeLink HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42642 - "GET /heartbeat HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42650 - "GET /config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42658 - "GET / HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42660 - "GET /c/a HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42670 - "POST /init HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:42686 - "GET /ping HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57066 - "POST /notice HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57068 - "GET /config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57080 - "GET /version HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57082 - "POST /v1/check HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57098 - "GET /v1/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57114 - "GET /index/init HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57124 - "GET /shop/getKF HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57140 - "GET /apps/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57142 - "GET /Event/basic HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57146 - "GET /front/index HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57150 - "GET /common/init HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57164 - "GET /index/index HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57170 - "GET /index/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57174 - "GET /Home/videoNew HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57180 - "GET /common/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57182 - "GET /uploads/apimap HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57184 - "GET /app/indexList HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57190 - "GET /user/getconfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57198 - "GET /common/configs HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57214 - "GET /site/getInfo.do HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57218 - "GET /index/webconfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57234 - "GET /message/webInfo HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57240 - "GET /index/gettreaty HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57252 - "GET /index/grailindex HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57254 - "GET /shares/hqStrList HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57266 - "GET /getWebSiteConfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57282 - "POST /user/ismustmobile HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57298 - "GET /user/ismustmobile HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57310 - "POST /user/ismustmobile HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57326 - "GET /user/ismustmobile HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57330 - "GET /index/productshow HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57334 - "GET /get_workerman_url HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57348 - "GET /system/notice/find HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57360 - "GET /v1/base/downloadAPP HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57372 - "GET /wanlshop/common/init HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57386 - "GET /banner?appKey=bxefdn HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57396 - "GET /Config/getShowConfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57410 - "GET /client/app/config.do HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57416 - "GET /product/getPointStore HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57430 - "GET /dict/getServiceConfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57446 - "GET /currency/quotation_new HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57456 - "GET /vue/transaction/config HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57460 - "GET /platform/getSundryData HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57466 - "GET /ServerMember/getChatList HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57478 - "GET /common/menus?lang=zh-Hans HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57492 - "GET /appVersion?mobile_system=2 HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57496 - "GET /public/?service=Home.getConfig HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57502 - "GET /api/exchangerateuserconfig%21get.action HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57518 - "POST /system/systemConfigs/getCustomerServiceLink HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57532 - "GET /v/index/queryOfficePage?officeCode=customHomeLink HTTP/1.0" 404 Not Found
-INFO:     127.0.0.1:57546 - "POST /heartbeat HTTP/1.0" 404 Not Found
+INFO:     167.94.138.194:50304 - "GET / HTTP/1.1" 404 Not Found
+INFO:     167.94.138.194:50318 - "PRI %2A HTTP/2.0" 404 Not Found
 WARNING:  Invalid HTTP request received.
-INFO:     162.142.125.209:43068 - "GET / HTTP/1.1" 404 Not Found
-INFO:     162.142.125.209:42414 - "GET / HTTP/1.1" 404 Not Found
-INFO:     162.142.125.209:42418 - "PRI %2A HTTP/2.0" 404 Not Found
+INFO:     167.94.138.194:43224 - "GET /favicon.ico HTTP/1.1" 404 Not Found
 WARNING:  Invalid HTTP request received.
-INFO:     162.142.125.209:42426 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-INFO:     180.101.244.12:19644 - "GET / HTTP/1.1" 404 Not Found
-INFO:     220.196.160.101:38344 - "GET / HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET / HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET / HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET / HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /app/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /dist/images/mask/bg1.jpg HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /dist/images/mask/guide/cn/step1.jpg HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET / HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /static/image/bg1.jpg HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /api/config HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /m/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /h5/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /static/wap/js/order.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /static/wap/css/trade-history.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /static/index/css/trade-history.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /h5 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /index/login HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /static/index/js/lk/order.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /a/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /035/index.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /040/index.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /7/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /v2 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /xy/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /im/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /wap HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /api HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /h5/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /qs/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /otc/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /012/index.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /vip/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /admin HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /syn/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /wap/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /homes/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /imei/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /mobile HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /config HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /im/h5/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /qwert/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /page/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /bg.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /site.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /1.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /mobile/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /m/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /jym-wn/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /conf.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /pc.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /api/c/a HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /lang.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /eids.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /js/xz.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /platform HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /api/ping HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /ddoo_im/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /kfcvwo50 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /getLocale HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /step1.asp HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /site/info HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /config.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /css/skin/ymPrompt.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /style.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /webConfig HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "POST /api/init HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "POST /join_room HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /app/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /index/aurl HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "POST /api/notice HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /api/config HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /kline/1m/1 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /js/home.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /scheduler HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /index.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /ay-1.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /categories HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /code1.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /home/index HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /yongxing/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /getsdkLink HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /api/version HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /myConfig.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /js/base1.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /js/a.script HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /login.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /mindex.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /js/index.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /common/init HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /my/zijin.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /css/main.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /option.bin HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /kfc/kpc.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /f/user/index HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /user/reg.php HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /js/post.js/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /apis/globals HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "POST /api/v1/check HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /m/allticker/1 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /nyyh/game.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /css/style.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /img/xxing.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /3/favicon.ico HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /api/v1/config HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /nyyh/chkjs.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /thriveGame.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /Home/Index/api HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /fePublicInfo/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /js/nsc/main.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /im/App/config HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /app/js/base.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /Pay_Index.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /index.php/sign HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /home/login.jpg HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /wa/index.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /setting/global HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /img/pc-ios.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /api/index/init HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /api/shop/getKF HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /js/app.user.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /js/bankCheck.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /api/apps/config HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /css/scanner.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /api/index/index HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /addons/fastim/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /geapi/webConfig HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /api/Event/basic HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /api/front/index HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /api/common/init HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /share/init_data HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /files/pub_rem.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /friendGroup/list HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /verification.asp HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /banner.do?code=1 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /appxz/index.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /home/index.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /%24web/index.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /dist/index.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /api/index/config HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /html/noroom.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /static/js/main.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /css/nsc/reset.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /Home/Get/getJnd28 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /skin/js/common.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /Public/initJs.php HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /mobile/lists.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /mytio/config/base HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /mfzbs/config/base HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /static/js/user.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /mobile/login.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /api/app/indexList HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /api/common/config HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /mobile/index/home HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "POST /mall/toget/banner HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /assets/js/main.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "POST /biz/server/config HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /API/Web/chat.ashx HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /banner/lunbo1.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /index/login/index HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /api/Home/videoNew HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /dwcc/cnfig/setinf HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /ciod/cnfig/setinf HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /public/img/cz1.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /api/uploads/apimap HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "POST /instatll?tag=matto HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /account_domain.php HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /kefu/css/style.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /api/user/getconfig HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /Web/js/v1/phone.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /Public/H5/js/h5.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /home/realtime/data HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /h5/img/icon/rj.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /checkout-dashboard HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /api/common/configs HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /skin/main/onload.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /public/js/global.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /api/site/getInfo.do HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /static/guide/ab.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /Public/js/common.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /api/message/webInfo HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /Content/favicon.ico HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /api/index/webconfig HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /static/js/common.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /static/fanzhabu.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /index_files/xzjs.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /mobile/lottery/list HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /api/index/gettreaty HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /room/getRoomBangFans HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /index/user/register HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /xy/image/jiantou.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /public/css/style.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /static/css/style.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /api/index/grailindex HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "POST /km.asmx/getPlatParam HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /static/css/reset.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /api/shares/hqStrList HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /other/getTopQuestion HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /api/getWebSiteConfig HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /assets/images/rw.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /temp/9cais/pact.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /index/login/register HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /static/diff_worker.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /data/json/config.json HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /Public/Home/js/cls.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /static/css/mobile.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /static/css/index.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "POST /api/user/ismustmobile HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /api/user/ismustmobile HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "POST /api/user/ismustmobile HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /api/user/ismustmobile HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /static/css/public.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /static/js/download.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /index/home/login.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /procoin/config/all.do HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /static/picture/gz.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /cx_platform/conf.json HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /app/api/app/get_index HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /unSecurity/app/config HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /static/css/common.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /dwcc/configxLxn/inxfx HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /api/index/productshow HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /api/get_workerman_url HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /public/wap/js/basis.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /aktv/img/nyyh/chkjs.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /index/index/getchatLog HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /static/images/jymx.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /facebook/facebook.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /apix/tongchengyue/tags HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "POST /prod-api/app/getNotice HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /assets/res/mods/room.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /api/system/notice/find HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /Public/home/js/check.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /Public/css/errorCss.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /static/home/css/css.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /iexchange/webtrader/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /static/home/js/rooms.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /static/wap/js/common.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /static/data/configjs.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /static/mobile/user.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /member/js/lang_zh_CN.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /wx/static/css/style.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /main/config/getkefuData HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /public/api/index/config HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /static/common/css/v.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /api/v1/base/downloadAPP HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /index/index/ajaxindexpro HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /Public/Wchat/js/cvphp.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /index_files/bankCheck.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /resources/main/common.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /assets/app-manifest.json HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /phone/images/icon_01.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /static/new/css/style.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /api/wanlshop/common/init HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /index.php/api/index/info HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /static/voice/default.wav HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /h5/static/tabbar/txl.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /static/js/chat-config.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /dist/azzara/css/down.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /api/banner?appKey=bxefdn HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /api/Config/getShowConfig HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /api/client/app/config.do HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /s_api/basic/download/info HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /Public/home/js/fukuang.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /Content/css/wzwstylel.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /mobile/film/css/index.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /saconfig/secure/yunwei.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /static/wap/css/common.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /static/picture/pc-ios.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /static/index/js/common.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /app/static/js/download.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /api/dict/getServiceConfig HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /template/920ka/css/lsy.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /static/common/js/common.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /static/home/imgs/pico.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /api/currency/quotation_new HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /public/h5static/js/main.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /api/product/getPointStore HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /pages/console/js/common.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /portal/index/protocol.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /Public/mobile/css/base.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /resource/home/js/common.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /Template/Mobile/js/main.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /api/vue/transaction/config HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /static/wap/css/tipmask.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /api/platform/getSundryData HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /static/index/css/index.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /resources/css/headernav.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /Templates/user/js/global.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /static/data/thirdgames.json HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /static/admincp/js/common.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /app/static/picture/star.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /market/market-ws/iframe.html HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /views/commData/commonSite.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /AnMjSjfe87/policy/getVersion HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /static/py/un/logo.uni6on.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /api/ServerMember/getChatList HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /mobile/v3/appSuperDownload.do HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /common/member/js/user.util.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "POST /melody/api/v1/pageconfig/list HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /template/mb/lang/text-zh.json HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /forerest/user/custSrv/findOne HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /api/common/menus?lang=zh-Hans HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /Public/Qts/Home/js/appAlert.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /getConfig/getArticle.do?code=1 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /Public/home/wap/css/qdgame.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /Public/home/common/js/index.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /masterControl/getSystemSetting HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /install.inc/vipsignInstall.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /index/index/home?business_id=1 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /getDownloadUrl?appType=Android HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /api/appVersion?mobile_system=2 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /public/assets/img/index/pay1.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /index.php/Wap/Api/getBanner HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /assets/mstock/newimg/kaihu-1.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /static/images/config/grzx/usd.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /api/public/?service=Home.getConfig HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /index/police/index.html?agent=1000 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /public/assets/js/lib/my-help.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /admin/webadmin.php?mod=do&act=login HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /static/home/css/feiqi-ee5401a8e6.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /admin/appContent/staticImagePosition HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /static/images/config/common/cpjy.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /public/static/home/js/moblie/login.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /static/customer/js/xiaotian.cli.v2.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /index/index/info?type=ultimate&date=2 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /api/unSecurity/app/listAppVersionInfo HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /public/static/index/picture/img_33.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /ajax/allcoin_a/id/0?t=0.3782499195965951 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41614 - "GET /wap/api/exchangerateuserconfig%21get.action HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "GET /static/img/new-lottery-title.921682f7.png HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41588 - "GET /api/api/exchangerateuserconfig%21get.action HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /source/20220119/static/wap/js/order.js HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /common/template/lottery/lecai/css/style.css HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "POST /api/system/systemConfigs/getCustomerServiceLink HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /Public/Mobile/ecshe_css/wapmain.css?v=1545408652 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41598 - "GET /infe/rest/fig/advertise/common.json?mobile_open=1 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /Public/Home/ecshe_css/main.css?v=1543997196 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41626 - "GET /client/api/findConfigByKey?configKey=level_config HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET / HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "POST /site/api/v1/site/vipExclusiveDomain/getGuestDomain HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /api/v/index/queryOfficePage?officeCode=customHomeLink HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41612 - "GET /8/ HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41640 - "GET /leftDao.php?callback=jQuery183016740860980352856_1604309800583 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41578 - "GET /getConfig/listPopFrame.do?code=1&position=index&_=1601489645097 HTTP/1.1" 404 Not Found
-INFO:     101.36.120.35:41636 - "POST /api/heartbeat HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-INFO:     180.163.28.114:51044 - "GET /procoin/config/all.do HTTP/1.1" 404 Not Found
-INFO:     42.194.245.125:19049 - "GET /assets/mstock/newimg/kaihu-1.png HTTP/1.1" 404 Not Found
-INFO:     45.156.129.136:40153 - "GET / HTTP/1.1" 404 Not Found
-INFO:     45.156.129.137:50351 - "GET /console HTTP/1.1" 404 Not Found
-INFO:     45.156.129.136:44149 - "GET /showLogin.cc HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:55424 - "GET /.env HTTP/1.0" 404 Not Found
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-INFO:     91.196.152.114:44987 - "GET / HTTP/1.1" 404 Not Found
-INFO:     91.231.89.202:36731 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-INFO:     74.82.47.2:49734 - "GET / HTTP/1.1" 404 Not Found
-INFO:     74.82.47.2:43456 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-INFO:     74.82.47.2:40588 - "GET http%3A//api.ipify.org/?format=json HTTP/1.1" 404 Not Found
-INFO:     74.82.47.2:40602 - "CONNECT www.shadowserver.org%3A443 HTTP/1.1" 404 Not Found
-INFO:     3.137.73.221:58032 - "GET / HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-INFO:     3.137.73.221:54446 - "GET / HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-INFO:     178.128.84.112:41224 - "GET /aaa9 HTTP/1.1" 404 Not Found
-INFO:     178.128.84.112:41226 - "GET /aab8 HTTP/1.1" 404 Not Found
-INFO:     178.128.84.112:41232 - "GET / HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:51786 - "POST /login HTTP/1.0" 200 OK
-INFO:     127.0.0.1:38498 - "POST /login HTTP/1.0" 200 OK
-INFO:     127.0.0.1:55114 - "POST /login HTTP/1.0" 200 OK
-INFO:     127.0.0.1:49016 - "POST /login HTTP/1.0" 401 Unauthorized
-INFO:     127.0.0.1:40156 - "POST /login HTTP/1.0" 200 OK
-INFO:     127.0.0.1:39062 - "POST /login HTTP/1.0" 200 OK
-INFO:     127.0.0.1:35494 - "POST /login HTTP/1.0" 200 OK
-INFO:     127.0.0.1:50440 - "POST /register HTTP/1.0" 200 OK
-INFO:     127.0.0.1:37490 - "POST /verify HTTP/1.0" 200 OK
-INFO:     127.0.0.1:37494 - "POST /login HTTP/1.0" 200 OK
-WARNING:  Invalid HTTP request received.
-INFO:     199.45.155.93:47410 - "GET / HTTP/1.1" 404 Not Found
-INFO:     199.45.155.93:55310 - "GET / HTTP/1.1" 404 Not Found
-INFO:     199.45.155.93:55322 - "PRI %2A HTTP/2.0" 404 Not Found
-WARNING:  Invalid HTTP request received.
-INFO:     199.45.155.93:57764 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-INFO:     59.83.208.104:40704 - "GET / HTTP/1.1" 404 Not Found
-INFO:     220.196.160.151:32258 - "GET / HTTP/1.1" 404 Not Found
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-WARNING:  Invalid HTTP request received.
-INFO:     154.212.141.149:48038 - "GET / HTTP/1.1" 404 Not Found
-INFO:     118.26.36.34:43134 - "GET / HTTP/1.1" 404 Not Found
-INFO:     118.26.36.34:43136 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53134 - "POST /register HTTP/1.0" 200 OK
+INFO:     127.0.0.1:38026 - "POST /verify HTTP/1.0" 200 OK
+INFO:     127.0.0.1:38036 - "POST /login HTTP/1.0" 200 OK
+INFO:     127.0.0.1:38050 - "GET /user_info?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNSwiZW1haWwiOiIyNzg1NTY1Mzg5QHFxLmNvbSIsIm5pY2tuYW1lIjoiXHU3NTI4XHU2MjM3NTU2NSIsImdlbmRlciI6Im1hbGUifQ.3HpW-Nz4xPIKxu3QM8fWsu_71qjkeykV7bnPzldz6bg HTTP/1.0" 200 OK
+更新身高: 190
+更新体重: 87
+更新性别: male -> female
+更新昵称: 用户5565 -> Bale
+生成新token，包含更新后的信息: nickname=Bale, gender=female
+INFO:     127.0.0.1:40610 - "POST /update_user_info HTTP/1.0" 200 OK
+头像保存成功: /var/www/avatars/Bale_avatar/avatar_20250531_221245.jpg
+更新头像: https://yiguiapp.xyz/avatars/Bale_avatar/avatar_20250531_221245.jpg
+INFO:     127.0.0.1:40620 - "POST /update_user_info HTTP/1.0" 200 OK
+更新身高: 176
+更新体重: 76
+更新性别: female -> female
+更新昵称: Bale -> Bale
+生成新token，包含更新后的信息: nickname=Bale, gender=female
+INFO:     127.0.0.1:55676 - "POST /update_user_info HTTP/1.0" 200 OK
+头像保存成功: /var/www/avatars/Bale_avatar/avatar_20250531_221304.jpg
+更新头像: https://yiguiapp.xyz/avatars/Bale_avatar/avatar_20250531_221304.jpg
+INFO:     127.0.0.1:55686 - "POST /update_user_info HTTP/1.0" 200 OK
+INFO:     127.0.0.1:42260 - "POST /login HTTP/1.0" 200 OK
+INFO:     127.0.0.1:42264 - "GET /user_info?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozNSwiZW1haWwiOiIyNzg1NTY1Mzg5QHFxLmNvbSIsIm5pY2tuYW1lIjoiQmFsZSIsImdlbmRlciI6ImZlbWFsZSJ9.sjup0mMhLZFtQgzrS9mkJP-fhQboNHNFvjBpIRZvKtc HTTP/1.0" 200 OK

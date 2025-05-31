@@ -23,7 +23,7 @@ class ModelViewModel: ObservableObject {
     }
     
     // 当用户输入身高和体重时，生成模型
-    func generateModel(name: String? = nil, height: Int, weight: Int, userId: String?) {
+    func generateModel(name: String? = nil, height: Int, weight: Int, userId: String?, nickname: String? = nil) {
         let modelName = name ?? "我的模型_\(height)cm_\(weight)kg"
         print("🔄 开始生成模型：\(modelName)，身高\(height)cm，体重\(weight)kg")
         isLoading = true
@@ -37,8 +37,23 @@ class ModelViewModel: ObservableObject {
             return
         }
         
-        // 调用真实的模型生成服务
-        generationService.generateAndLoadModel(height: Double(height), weight: Double(weight)) { [weak self] result in
+        // 获取用户昵称和性别
+        var userNickname = nickname ?? "defaultuser"
+        var userGender = "male"  // 默认性别
+        if userNickname == "defaultuser", let userData = UserDefaults.standard.data(forKey: "user"),
+           let user = try? JSONDecoder().decode(User.self, from: userData) {
+            userNickname = user.nickname
+            userGender = user.gender
+        } else if let userData = UserDefaults.standard.data(forKey: "user"),
+                  let user = try? JSONDecoder().decode(User.self, from: userData) {
+            // 即使nickname不是默认值，也要获取用户的性别
+            userGender = user.gender
+        }
+        
+        print("🔍 模型生成参数 - 昵称: \(userNickname), 性别: \(userGender)")
+        
+        // 调用真实的模型生成服务，传递性别参数
+        generationService.generateAndLoadModel(height: Double(height), weight: Double(weight), nickname: userNickname, gender: userGender) { [weak self] result in
             guard let self = self else { return }
             
             DispatchQueue.main.async {
@@ -99,7 +114,7 @@ class ModelViewModel: ObservableObject {
         if let userData = UserDefaults.standard.data(forKey: "user"),
            let user = try? JSONDecoder().decode(User.self, from: userData) {
             
-            print("📊 用户数据: 身高=\(user.height ?? 0), 体重=\(user.weight ?? 0)")
+            print("📊 用户数据: 身高=\(user.height ?? 0), 体重=\(user.weight ?? 0), 性别=\(user.gender)")
             
             // 验证身高体重数据的有效性
             guard let height = user.height, let weight = user.weight,
@@ -111,26 +126,37 @@ class ModelViewModel: ObservableObject {
                 return
             }
             
-            print("✅ 用户身高体重数据有效：身高\(height)cm，体重\(weight)kg")
+            print("✅ 用户身高体重数据有效：身高\(height)cm，体重\(weight)kg，性别\(user.gender)")
             
-            // 检查是否已经有基于相同身高体重的自定义模型
-            let existingModel = models.first { model in
-                model.isCustom && model.height == height && model.weight == weight
+            // 删除用户所有现有的自定义模型（确保每用户只有一个模型，且支持性别变化）
+            let userModels = models.filter { $0.isCustom }
+            for oldModel in userModels {
+                models.removeAll { $0.id == oldModel.id }
+                print("🗑️ 删除旧模型: \(oldModel.name)")
             }
             
-            if existingModel != nil {
-                // 如果已经存在相同身高体重的模型，则直接选择它
-                selectedModel = existingModel
-                print("📋 找到现有模型，直接使用")
-            } else {
-                // 创建新模型
-                print("🔄 开始生成新模型")
-                generateModel(height: height, weight: weight, userId: user.id)
-            }
+            // 总是生成新模型以确保性别信息正确
+            print("🔄 开始生成新模型（性别：\(user.gender)）")
+            generateModel(height: height, weight: weight, userId: user.id, nickname: user.nickname)
         } else {
+            // 检查是否是用户已退出登录的情况
+            let isLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
+            if !isLoggedIn {
+                print("📝 用户未登录，清空模型列表")
+                // 用户未登录，清空自定义模型
+                models.removeAll { $0.isCustom }
+                self.error = nil // 不显示错误信息
+            } else {
             print("❌ 无法读取用户数据")
-            self.error = "无法读取用户信息，请重新登录"
+                self.error = "请先在个人中心设置有效的身高体重信息"
+            }
         }
+    }
+    
+    // 处理用户信息更新后的模型重新生成
+    func handleUserInfoUpdate() {
+        // 重新从用户资料生成模型
+        generateModelFromUserProfile()
     }
     
     // 加载模型列表

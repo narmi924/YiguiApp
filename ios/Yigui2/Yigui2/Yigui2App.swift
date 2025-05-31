@@ -50,6 +50,8 @@ struct Yigui2App: App {
         // 如果已登录，直接跳转到主应用
         if authViewModel.isLoggedIn || UserDefaults.standard.bool(forKey: "isLoggedIn") {
             authViewModel.loadUserState()
+            
+            // 已登录用户直接进入主应用
             appStateManager.rootViewState = .mainApp
         }
     }

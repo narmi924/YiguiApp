@@ -66,12 +66,14 @@ class NetworkService {
     // MARK: - 邮箱注册与登录相关接口
     
     // 邮箱注册（第一步：发送验证码）
-    func emailRegister(email: String, password: String) async throws -> MessageResponse {
+    func emailRegister(email: String, password: String, nickname: String, gender: String = "male") async throws -> MessageResponse {
         let endpoint = "/register"
         
         let parameters: [String: Any] = [
             "email": email,
-            "password": password
+            "password": password,
+            "nickname": nickname,
+            "gender": gender
         ]
         
         guard let response = try await makePostRequest(to: endpoint, body: parameters, responseType: MessageResponse.self) else {
@@ -149,36 +151,157 @@ class NetworkService {
     }
     */
     
-    // 获取当前用户信息（由于服务器没有此端点，返回基础用户信息）
+    // 获取当前用户信息（调用服务器的user_info接口）
     func getCurrentUser(token: String) async throws -> UserResponse {
-        // 由于服务器没有 /me 端点，我们从token中解析用户信息
-        // 或者返回一个基础的用户信息
-        let parts = token.components(separatedBy: ".")
-        if parts.count == 3, let payloadData = Data(base64Encoded: parts[1]) {
-            do {
-                let payload = try JSONSerialization.jsonObject(with: payloadData, options: []) as? [String: Any]
-                let email = payload?["email"] as? String ?? "user@example.com"
+        let endpoint = "/user_info"
+        
+        // 先尝试从服务器获取用户信息
+        do {
+            var urlComponents = URLComponents(string: baseURL + endpoint)!
+            urlComponents.queryItems = [URLQueryItem(name: "token", value: token)]
+            
+            guard let url = urlComponents.url else {
+                throw NetworkError.invalidURL
+            }
+            
+            print("🌐 发送HTTPS请求: \(url.absoluteString)")
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            
+            let (data, response) = try await urlSession.data(for: request)
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw NetworkError.invalidResponse
+            }
+            
+            print("📡 响应状态码: \(httpResponse.statusCode)")
+            
+            if httpResponse.statusCode == 200 {
+                // 解析服务器返回的用户信息
+                let serverUserInfo = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                
+                let email = serverUserInfo?["email"] as? String ?? "user@example.com"
+                let nickname = serverUserInfo?["nickname"] as? String
+                let height = serverUserInfo?["height"] as? Int
+                let weight = serverUserInfo?["weight"] as? Int
+                let avatarURL = serverUserInfo?["avatar_url"] as? String
+                let gender = serverUserInfo?["gender"] as? String ?? "male"
+                
+                print("📋 从服务器获取用户信息: email=\(email), nickname=\(nickname ?? "nil"), gender=\(gender), height=\(height ?? 0), weight=\(weight ?? 0)")
+                
                 return UserResponse(
                     email: email,
-                    nickname: nil,
-                    height: nil,
-                    weight: nil,
-                    avatarURL: nil
+                    nickname: nickname,
+                    height: height,
+                    weight: weight,
+                    avatarURL: avatarURL,
+                    gender: gender
                 )
-            } catch {
-                print("解析token失败: \(error)")
-                throw NetworkError.invalidToken
+            } else {
+                throw NetworkError.serverError("获取用户信息失败")
+            }
+        } catch {
+            print("⚠️ 从服务器获取用户信息失败，尝试从token解析: \(error)")
+            
+            // 如果服务器请求失败，回退到从token解析
+            let parts = token.components(separatedBy: ".")
+            if parts.count == 3 {
+                // 确保正确解码base64（可能需要补充填充）
+                var payload = parts[1]
+                // 添加必要的填充
+                while payload.count % 4 != 0 {
+                    payload += "="
+                }
+                
+                if let payloadData = Data(base64Encoded: payload) {
+                    do {
+                        let payloadObject = try JSONSerialization.jsonObject(with: payloadData, options: []) as? [String: Any]
+                        let email = payloadObject?["email"] as? String ?? "user@example.com"
+                        let nickname = payloadObject?["nickname"] as? String
+                        let gender = payloadObject?["gender"] as? String ?? "male"  // 解析性别信息
+                        
+                        print("📋 从token解析用户信息: email=\(email), nickname=\(nickname ?? "nil"), gender=\(gender)")
+                        
+                        return UserResponse(
+                            email: email,
+                            nickname: nickname,
+                            height: nil,
+                            weight: nil,
+                            avatarURL: nil,
+                            gender: gender
+                        )
+                    } catch {
+                        print("解析token失败: \(error)")
+                        throw NetworkError.invalidToken
+                    }
+                }
+            }
+            
+            print("⚠️ 无法解析token，返回默认用户信息")
+            // 返回默认用户信息
+            return UserResponse(
+                email: "user@example.com",
+                nickname: nil,
+                height: nil,
+                weight: nil,
+                avatarURL: nil,
+                gender: "male"  // 默认性别
+            )
+        }
+    }
+    
+    // 更新用户信息
+    func updateUserInfo(token: String, height: Int?, weight: Int?, avatarURL: String?, gender: String? = nil, nickname: String? = nil) async throws -> UpdateUserInfoResponse {
+        let endpoint = "/update_user_info"
+        
+        var parameters: [String: Any] = [
+            "token": token
+        ]
+        
+        if let height = height {
+            parameters["height"] = height
+        }
+        
+        if let weight = weight {
+            parameters["weight"] = weight
+        }
+        
+        if let avatarURL = avatarURL {
+            parameters["avatar_url"] = avatarURL
+        }
+        
+        if let gender = gender {
+            parameters["gender"] = gender
+        }
+        
+        if let nickname = nickname {
+            parameters["nickname"] = nickname
+        }
+        
+        print("🌐 准备发送用户信息更新请求到: \(baseURL)\(endpoint)")
+        print("📤 请求参数:")
+        for (key, value) in parameters {
+            if key == "avatar_url" {
+                print("   - \(key): \(value is String ? "头像数据" : value)")
+            } else {
+                print("   - \(key): \(value)")
             }
         }
         
-        // 返回默认用户信息
-        return UserResponse(
-            email: "user@example.com",
-            nickname: nil,
-            height: nil,
-            weight: nil,
-            avatarURL: nil
-        )
+        guard let response = try await makePostRequest(to: endpoint, body: parameters, responseType: UpdateUserInfoResponse.self) else {
+            throw NetworkError.invalidResponse
+        }
+        
+        print("✅ 用户信息更新请求成功: \(response.message)")
+        
+        // 如果服务器返回了新token，更新本地存储的token
+        if let newToken = response.new_token {
+            UserDefaults.standard.set(newToken, forKey: "token")
+            print("🔄 收到新token，已更新本地存储")
+        }
+        
+        return response
     }
     
     // 通用POST请求方法
@@ -322,10 +445,22 @@ struct UserResponse: Codable {
     let height: Int?
     let weight: Int?
     let avatarURL: String?
+    let gender: String
 }
 
 struct MessageResponse: Codable {
     let message: String
+}
+
+// 更新用户信息响应模型（支持新token）
+struct UpdateUserInfoResponse: Codable {
+    let message: String
+    let new_token: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case message
+        case new_token
+    }
 }
 
 struct ErrorResponse: Codable {

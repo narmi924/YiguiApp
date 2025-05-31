@@ -7,13 +7,15 @@ struct User: Codable, Identifiable {
     var height: Int?
     var weight: Int?
     var avatarURL: URL?
+    var gender: String
     
-    init(id: String = UUID().uuidString, email: String, nickname: String, height: Int? = nil, weight: Int? = nil, avatarURL: URL? = nil) {
+    init(id: String = UUID().uuidString, email: String, nickname: String, height: Int? = nil, weight: Int? = nil, avatarURL: URL? = nil, gender: String = "male") {
         self.id = id
         self.email = email
         self.nickname = nickname
         self.height = height
         self.weight = weight
         self.avatarURL = avatarURL
+        self.gender = gender
     }
 } 

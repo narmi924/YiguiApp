@@ -92,27 +92,6 @@ struct SignInView: View {
                             .padding(.top, 20)
                     }
                     
-                    // 开发期间的直接体验按钮
-                    Button(action: {
-                        skipLogin()
-                    }) {
-                        HStack {
-                            Image(systemName: "arrow.right.circle")
-                                .foregroundColor(.themeColor)
-                            Text("跳过登录，直接体验")
-                                .font(.custom("MF DianHei", size: 16))
-                                .foregroundColor(.themeColor)
-                        }
-                        .frame(height: 50)
-                        .frame(maxWidth: .infinity)
-                        .background(
-                            RoundedRectangle(cornerRadius: 25)
-                                .stroke(Color.themeColor, lineWidth: 1.5)
-                        )
-                    }
-                    .padding(.horizontal, 50)
-                    .padding(.top, 15)
-                    
                     Spacer()
                     
                     // 隐私说明
@@ -146,7 +125,13 @@ struct SignInView: View {
         }
         .onReceive(authViewModel.$isLoggedIn) { isLoggedIn in
             if isLoggedIn {
-                appStateManager.rootViewState = .defaultInfo
+                if authViewModel.isNewUser {
+                    // 新注册用户，跳转到信息填写页面
+                    appStateManager.rootViewState = .defaultInfo
+                } else {
+                    // 已注册用户，直接进入主应用
+                    appStateManager.rootViewState = .mainApp
+                }
             }
         }
     }
@@ -173,9 +158,10 @@ struct SignInView: View {
                     .inputLabelStyle()
                 
                 SecureField("请输入密码", text: $authViewModel.password)
-                    .textContentType(.none)
-                    .autocapitalization(.none)
-                    .disableAutocorrection(true)
+                    .keyboardType(.default)
+                    .textContentType(.password)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled(true)
                     .inputFieldStyle()
             }
             
@@ -214,9 +200,10 @@ struct SignInView: View {
                     .inputLabelStyle()
                 
                 SecureField("请输入密码（至少6位）", text: $authViewModel.password)
-                    .textContentType(.none)
-                    .autocapitalization(.none)
-                    .disableAutocorrection(true)
+                    .keyboardType(.default)
+                    .textContentType(.newPassword)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled(true)
                     .inputFieldStyle()
             }
             
@@ -226,18 +213,10 @@ struct SignInView: View {
                     .inputLabelStyle()
                 
                 SecureField("请再次输入密码", text: $authViewModel.confirmPassword)
-                    .textContentType(.none)
-                    .autocapitalization(.none)
-                    .disableAutocorrection(true)
-                    .inputFieldStyle()
-            }
-            
-            // 昵称输入框（可选）
-            VStack(alignment: .leading, spacing: 8) {
-                Text("昵称（可选）")
-                    .inputLabelStyle()
-                
-                TextField("请输入昵称", text: $authViewModel.nickname)
+                    .keyboardType(.default)
+                    .textContentType(.newPassword)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled(true)
                     .inputFieldStyle()
             }
             
@@ -316,12 +295,6 @@ struct SignInView: View {
         return authViewModel.verificationCodeSent &&
                !authViewModel.verificationCode.isEmpty &&
                authViewModel.verificationCode.count == 6
-    }
-    
-    // 跳过登录，直接体验（开发期间使用）
-    private func skipLogin() {
-        authViewModel.skipLoginForDevelopment()
-        appStateManager.rootViewState = .defaultInfo
     }
     
 }

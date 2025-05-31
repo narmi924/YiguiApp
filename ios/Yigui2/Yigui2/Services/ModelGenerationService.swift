@@ -30,6 +30,8 @@ struct ServerModelRequest: Codable {
     let height: Double
     let weight: Double
     let age: Int
+    let texture: String
+    let nickname: String
 }
 
 class ModelGenerationService {
@@ -45,7 +47,7 @@ class ModelGenerationService {
     }
     
     // 生成并加载模型的完整流程
-    func generateAndLoadModel(height: Double, weight: Double, completion: @escaping (Result<URL, ModelGenerationError>) -> Void) {
+    func generateAndLoadModel(height: Double, weight: Double, nickname: String, gender: String = "male", texture: String = "shirt.glb", completion: @escaping (Result<URL, ModelGenerationError>) -> Void) {
         // 创建后台任务
         Task {
             do {
@@ -57,10 +59,12 @@ class ModelGenerationService {
                 
                 // 2. 准备请求数据（使用服务器API格式）
                 let requestData = ServerModelRequest(
-                    gender: "male",
+                    gender: gender,  // 使用传入的性别参数
                     height: height,
                     weight: weight,
-                    age: 25 // 默认年龄
+                    age: 25, // 默认年龄
+                    texture: texture,
+                    nickname: nickname
                 )
                 
                 print("📤 发送模型生成请求到服务器...")
@@ -184,6 +188,8 @@ class ModelGenerationService {
             throw ModelGenerationError.downloadFailed("无效的下载URL")
         }
         
+        print("📥 开始下载模型: \(httpsUrl)")
+        
         // 下载GLB文件
         do {
             let (downloadURL, _) = try await URLSession.shared.download(from: url)
@@ -202,8 +208,32 @@ class ModelGenerationService {
                 try fileManager.createDirectory(at: modelsDirectory, withIntermediateDirectories: true)
             }
             
+            // 从URL路径中提取文件名，保留昵称前缀
+            // 例如：https://yiguiapp.xyz/models/Alice_models/2025-05-27-14-00-00.glb
+            // 保存为：Alice_models_2025-05-27-14-00-00.glb
+            let urlComponents = url.pathComponents
+            let modelFileName: String
+            
+            if urlComponents.count >= 2 && urlComponents.contains("models") {
+                let modelsIndex = urlComponents.firstIndex(of: "models") ?? 0
+                
+                // 如果URL路径包含{nickname}_models格式的子目录
+                if modelsIndex + 1 < urlComponents.count {
+                    let folderName = urlComponents[modelsIndex + 1] // 例如：Alice_models
+                    if folderName.hasSuffix("_models") && urlComponents.count > modelsIndex + 2 {
+                        let originalFileName = urlComponents.last ?? "model.glb"
+                        modelFileName = "\(folderName)_\(originalFileName)"
+                    } else {
+                        modelFileName = urlComponents.last ?? "model.glb"
+                    }
+                } else {
+                    modelFileName = urlComponents.last ?? "model.glb"
+                }
+            } else {
+                modelFileName = urlComponents.last ?? "model.glb"
+            }
+            
             // 创建新模型的永久存储路径
-            let modelFileName = "CustomModel_\(UUID().uuidString).glb"
             let modelDestination = modelsDirectory.appendingPathComponent(modelFileName)
             
             // 将下载的文件移动到永久存储位置
