@@ -1,7 +1,6 @@
 import SwiftUI
 
 extension Color {
-    static let primary = Color(hex: "E8AD70") // 主要颜色（橙棕色）
     static let themeColor = Color(hex: "E8AD70") // 主题色
     static let background = Color.white // 背景色
     static let darkBrown = Color(hex: "704F38") // 深棕色

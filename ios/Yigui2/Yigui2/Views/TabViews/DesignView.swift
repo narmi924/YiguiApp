@@ -102,7 +102,10 @@ struct DesignView: View {
                         }
                     }
                 }
-                .padding(.top)
+                .navigationBarHidden(true)
+                .onAppear {
+                    viewModel.loadDesigns()
+                }
                 .sheet(isPresented: $showingTypeSelection) {
                     ClothingTypeSelectionView(viewModel: viewModel)
                 }
@@ -121,10 +124,6 @@ struct DesignView: View {
                 } message: {
                     Text("请为您的设计命名")
                 }
-            }
-            .navigationBarHidden(true)
-            .onAppear {
-                viewModel.loadDesigns()
             }
         }
     }

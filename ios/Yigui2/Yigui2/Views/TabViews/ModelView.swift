@@ -129,40 +129,39 @@ struct ModelView: View {
                     .padding(.horizontal)
                     .padding(.bottom, 10) // 确保按钮与菜单栏有适当的间距
                 }
-                .padding(.top)
-                .sheet(isPresented: $showingModelList) {
-                    ModelListView(viewModel: viewModel)
-                }
-                .alert("确认删除", isPresented: $showDeleteConfirmation) {
-                    Button("取消", role: .cancel) {}
-                    Button("删除", role: .destructive) {
-                        if let model = modelToDelete {
-                            // 如果删除的是当前选中的模型，自动选择下一个
-                            if viewModel.selectedModel?.id == model.id {
-                                if let nextModel = viewModel.models.first(where: { $0.id != model.id }) {
-                                    viewModel.selectModel(nextModel)
-                                    // 强制重新加载模型场景
-                                    viewModel.modelScene = nil
-                                    viewModel.loadSceneForModel(nextModel)
-                                }
-                            }
-                            viewModel.deleteModel(model)
-                        }
+                .navigationBarHidden(true)
+                .onAppear {
+                    if isFirstAppear {
+                        viewModel.loadModels()
+                        isFirstAppear = false
                     }
-                } message: {
-                    Text("确定要删除这个模型吗？此操作无法撤销。")
+                }
+                .onReceive(authViewModel.userInfoUpdated) {
+                    // 用户信息更新后，重新生成模型
+                    viewModel.handleUserInfoUpdate()
                 }
             }
-            .navigationBarHidden(true)
-            .onAppear {
-                if isFirstAppear {
-                    viewModel.loadModels()
-                    isFirstAppear = false
-                }
+            .sheet(isPresented: $showingModelList) {
+                ModelListView(viewModel: viewModel)
             }
-            .onReceive(authViewModel.userInfoUpdated) {
-                // 用户信息更新后，重新生成模型
-                viewModel.handleUserInfoUpdate()
+            .alert("确认删除", isPresented: $showDeleteConfirmation) {
+                Button("取消", role: .cancel) {}
+                Button("删除", role: .destructive) {
+                    if let model = modelToDelete {
+                        // 如果删除的是当前选中的模型，自动选择下一个
+                        if viewModel.selectedModel?.id == model.id {
+                            if let nextModel = viewModel.models.first(where: { $0.id != model.id }) {
+                                viewModel.selectModel(nextModel)
+                                // 强制重新加载模型场景
+                                viewModel.modelScene = nil
+                                viewModel.loadSceneForModel(nextModel)
+                            }
+                        }
+                        viewModel.deleteModel(model)
+                    }
+                }
+            } message: {
+                Text("确定要删除这个模型吗？此操作无法撤销。")
             }
         }
     }
