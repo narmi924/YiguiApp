@@ -1,5 +1,4 @@
 import Foundation
-import AuthenticationServices
 
 enum NetworkError: Error {
     case invalidURL
@@ -48,7 +47,6 @@ class SSLPinningDelegate: NSObject, URLSessionDelegate {
 class NetworkService {
     static let shared = NetworkService()
     
-    // 更新为新的服务器域名
     private let baseURL = "https://yiguiapp.xyz/api"
     
     // 创建自定义URL会话，配置SSL处理
@@ -114,42 +112,6 @@ class NetworkService {
         
         return response
     }
-    
-    // MARK: - Apple登录（注释掉，但保留代码）
-    
-    // Apple登录/注册
-    /*
-    func appleSignIn(userIdentifier: String, email: String?, fullName: PersonNameComponents?) async throws -> AuthResponse {
-        let endpoint = "/apple_signin"
-        
-        var parameters: [String: Any] = [
-            "user_identifier": userIdentifier
-        ]
-        
-        if let email = email {
-            parameters["email"] = email
-        }
-        
-        if let fullName = fullName {
-            var nameDict: [String: String] = [:]
-            if let givenName = fullName.givenName {
-                nameDict["given_name"] = givenName
-            }
-            if let familyName = fullName.familyName {
-                nameDict["family_name"] = familyName
-            }
-            if !nameDict.isEmpty {
-                parameters["full_name"] = nameDict
-            }
-        }
-        
-        guard let response = try await makePostRequest(to: endpoint, body: parameters, responseType: AuthResponse.self) else {
-            throw NetworkError.invalidResponse
-        }
-        
-        return response
-    }
-    */
     
     // 获取当前用户信息（调用服务器的user_info接口）
     func getCurrentUser(token: String) async throws -> UserResponse {
@@ -219,7 +181,7 @@ class NetworkService {
                         let payloadObject = try JSONSerialization.jsonObject(with: payloadData, options: []) as? [String: Any]
                         let email = payloadObject?["email"] as? String ?? "user@example.com"
                         let nickname = payloadObject?["nickname"] as? String
-                        let gender = payloadObject?["gender"] as? String ?? "male"  // 解析性别信息
+                        let gender = payloadObject?["gender"] as? String ?? "male"
                         
                         print("📋 从token解析用户信息: email=\(email), nickname=\(nickname ?? "nil"), gender=\(gender)")
                         
@@ -246,7 +208,7 @@ class NetworkService {
                 height: nil,
                 weight: nil,
                 avatarURL: nil,
-                gender: "male"  // 默认性别
+                gender: "male"
             )
         }
     }

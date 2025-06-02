@@ -1,5 +1,4 @@
 import SwiftUI
-// import AuthenticationServices // 注释掉Apple登录相关导入
 
 struct SignInView: View {
     @ObservedObject var appStateManager: AppStateManager
@@ -35,34 +34,50 @@ struct SignInView: View {
                         .padding(.bottom, 40)
                     
                     // 切换登录/注册说明
-                    HStack(spacing: 0) {
-                        // 登录说明
-                        Button(action: {
-                            withAnimation {
-                                isSignIn = true
-                                authViewModel.clearForm()
-                            }
-                        }) {
-                            Text("登录")
-                                .tabLabelStyle(isSelected: isSignIn)
-                        }
+                    ZStack {
+                        // 外框
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke(Color.themeColor, lineWidth: 2)
+                            .frame(width: 200, height: 50)
                         
-                        // 注册说明
-                        Button(action: {
-                            withAnimation {
-                                isSignIn = false
-                                authViewModel.clearForm()
+                        // 滑动背景 - 使用offset实现平滑滑动
+                        RoundedRectangle(cornerRadius: 23)
+                            .fill(Color.themeColor)
+                            .frame(width: 96, height: 46)
+                            .offset(x: isSignIn ? -50 : 50)
+                            .animation(.spring(response: 0.4, dampingFraction: 0.85, blendDuration: 0), value: isSignIn)
+                        
+                        // 按钮文字
+                        HStack(spacing: 0) {
+                            // 登录按钮
+                            Button(action: {
+                                withAnimation(.spring(response: 0.4, dampingFraction: 0.85, blendDuration: 0)) {
+                                    isSignIn = true
+                                    authViewModel.clearForm()
+                                }
+                            }) {
+                                Text("登录")
+                                    .font(.custom("MF DianHei", size: 20))
+                                    .foregroundColor(isSignIn ? .white : Color.themeColor)
+                                    .frame(width: 100, height: 50)
+                                    .animation(.spring(response: 0.4, dampingFraction: 0.85, blendDuration: 0), value: isSignIn)
                             }
-                        }) {
-                            Text("注册")
-                                .tabLabelStyle(isSelected: !isSignIn)
+                            
+                            // 注册按钮
+                            Button(action: {
+                                withAnimation(.spring(response: 0.4, dampingFraction: 0.85, blendDuration: 0)) {
+                                    isSignIn = false
+                                    authViewModel.clearForm()
+                                }
+                            }) {
+                                Text("注册")
+                                    .font(.custom("MF DianHei", size: 20))
+                                    .foregroundColor(!isSignIn ? .white : Color.themeColor)
+                                    .frame(width: 100, height: 50)
+                                    .animation(.spring(response: 0.4, dampingFraction: 0.85, blendDuration: 0), value: isSignIn)
+                            }
                         }
                     }
-                    .frame(width: 200, height: 50)
-                    .background(
-                        RoundedRectangle(cornerRadius: 25)
-                            .stroke(Color.primary, lineWidth: 2)
-                    )
                     .padding(.bottom, 30)
                     
                     // 登录或注册表单

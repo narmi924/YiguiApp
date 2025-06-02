@@ -21,185 +21,189 @@ struct ProfileView: View {
                 )
                 .ignoresSafeArea()
                 
-                ScrollView {
-                    VStack(spacing: 25) {
-                        // 应用标题
-                        HStack(spacing: 0) {
-                            Text("Yig")
-                                .font(.custom("Epilogue", size: 32))
-                                .foregroundColor(.textPrimary)
-                            
-                            Text("U")
-                                .font(.custom("Epilogue", size: 32))
-                                .foregroundColor(.themeColor)
-                            
-                            Text("i")
-                                .font(.custom("Epilogue", size: 32))
-                                .foregroundColor(.textPrimary)
-                        }
-                        .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
-                        .padding(.top, 20)
+                VStack(spacing: 10) {
+                    // 应用标题 - 固定在顶部
+                    HStack(spacing: 0) {
+                        Text("Yig")
+                            .font(.custom("Epilogue", size: 36))
+                            .foregroundColor(.textPrimary)
                         
-                        // 用户头像区域
-                        VStack(spacing: 15) {
-                            ZStack {
-                                // 头像背景圆环
-                                Circle()
-                                    .stroke(
-                                        LinearGradient(
-                                            gradient: Gradient(colors: [Color.themeColor.opacity(0.3), Color.themeColor]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ),
-                                        lineWidth: 3
-                                    )
-                                    .frame(width: 130, height: 130)
-                                
-                                // 头像选择器
-                                PhotosPicker(selection: $selectedItem, matching: .images) {
-                                    if let avatarImage {
-                                        avatarImage
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 120, height: 120)
-                                            .clipShape(Circle())
-                                    } else {
-                                        Circle()
-                                            .fill(
-                                                LinearGradient(
-                                                    gradient: Gradient(colors: [Color.gray.opacity(0.1), Color.gray.opacity(0.2)]),
-                                                    startPoint: .topLeading,
-                                                    endPoint: .bottomTrailing
+                        Text("U")
+                            .font(.custom("Epilogue", size: 36))
+                            .foregroundColor(.themeColor)
+                        
+                        Text("i")
+                            .font(.custom("Epilogue", size: 36))
+                            .foregroundColor(.textPrimary)
+                    }
+                    .shadow(color: .black.opacity(0.35), radius: 3, x: 0, y: 3)
+                    .padding(.top, 10)
+                    
+                    // 可滚动内容
+                    ScrollView {
+                        VStack(spacing: 25) {
+                            // 用户头像区域
+                            VStack(spacing: 15) {
+                                ZStack {
+                                    // 头像背景圆环
+                                    Circle()
+                                        .stroke(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [Color.themeColor.opacity(0.3), Color.themeColor]),
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            ),
+                                            lineWidth: 3
+                                        )
+                                        .frame(width: 130, height: 130)
+                                    
+                                    // 头像选择器
+                                    PhotosPicker(selection: $selectedItem, matching: .images) {
+                                        if let avatarImage {
+                                            avatarImage
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: 120, height: 120)
+                                                .clipShape(Circle())
+                                        } else {
+                                            Circle()
+                                                .fill(
+                                                    LinearGradient(
+                                                        gradient: Gradient(colors: [Color.gray.opacity(0.1), Color.gray.opacity(0.2)]),
+                                                        startPoint: .topLeading,
+                                                        endPoint: .bottomTrailing
+                                                    )
                                                 )
-                                            )
-                                            .frame(width: 120, height: 120)
-                                        
-                                        Image(systemName: "person.fill")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 50, height: 50)
-                                            .foregroundColor(.gray.opacity(0.6))
+                                                .frame(width: 120, height: 120)
+                                            
+                                            Image(systemName: "person.fill")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 50, height: 50)
+                                                .foregroundColor(.gray.opacity(0.6))
+                                        }
                                     }
-                                }
-                                .onChange(of: selectedItem) { _ in
-                                    loadImage()
+                                    .onChange(of: selectedItem) { _ in
+                                        loadImage()
+                                    }
+                                    
+                                    // 编辑头像图标
+                                    Image(systemName: "camera.fill")
+                                        .foregroundColor(.white)
+                                        .font(.system(size: 14, weight: .medium))
+                                        .frame(width: 28, height: 28)
+                                        .background(Color.themeColor)
+                                        .clipShape(Circle())
+                                        .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 1)
+                                        .offset(x: 40, y: 40)
                                 }
                                 
-                                // 编辑头像图标
-                                Image(systemName: "camera.fill")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 14, weight: .medium))
-                                    .frame(width: 28, height: 28)
-                                    .background(Color.themeColor)
-                                    .clipShape(Circle())
-                                    .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 1)
-                                    .offset(x: 40, y: 40)
-                            }
-                            
-                            // 用户昵称
-                            if let user = authViewModel.user {
-                                Text(user.nickname)
-                                    .font(.custom("MF DianHei", size: 22))
-                                    .fontWeight(.medium)
-                                    .foregroundColor(.textPrimary)
-                            }
-                        }
-                        .padding(.vertical, 10)
-                        
-                        // 用户信息卡片
-                        profileInfoCard
-                        
-                        // 功能按钮区
-                        VStack(spacing: 12) {
-                            // 修改数据按钮
-                            Button(action: {
+                                // 用户昵称
                                 if let user = authViewModel.user {
-                                    authViewModel.height = user.height != nil ? "\(user.height!)" : ""
-                                    authViewModel.weight = user.weight != nil ? "\(user.weight!)" : ""
-                                    showEditData = true
-                                }
-                            }) {
-                                HStack(spacing: 12) {
-                                    Image(systemName: "ruler")
-                                        .font(.system(size: 18, weight: .medium))
-                                        .foregroundColor(.themeColor)
-                                    
-                                    Text("修改数据")
-                                        .font(.custom("MF DianHei", size: 16))
+                                    Text(user.nickname)
+                                        .font(.custom("MF DianHei", size: 22))
                                         .fontWeight(.medium)
                                         .foregroundColor(.textPrimary)
-                                    
-                                    Spacer()
-                                    
-                                    Image(systemName: "chevron.right")
-                                        .font(.system(size: 14, weight: .medium))
-                                        .foregroundColor(.gray)
                                 }
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 16)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(Color.white)
-                                        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
-                                )
                             }
+                            .padding(.vertical, 10)
                             
-                            // 设置按钮
-                            Button(action: {
-                                showSettings = true
-                            }) {
-                                HStack(spacing: 12) {
-                                    Image(systemName: "gear")
-                                        .font(.system(size: 18, weight: .medium))
-                                        .foregroundColor(.themeColor)
-                                    
-                                    Text("设置")
-                                        .font(.custom("MF DianHei", size: 16))
-                                        .fontWeight(.medium)
-                                        .foregroundColor(.textPrimary)
-                                    
-                                    Spacer()
-                                    
-                                    Image(systemName: "chevron.right")
-                                        .font(.system(size: 14, weight: .medium))
-                                        .foregroundColor(.gray)
-                                }
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 16)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(Color.white)
-                                        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
-                                )
-                            }
+                            // 用户信息卡片
+                            profileInfoCard
                             
-                            // 退出登录按钮
-                            Button(action: {
-                                showLogoutConfirmation = true
-                            }) {
-                                HStack(spacing: 12) {
-                                    Image(systemName: "rectangle.portrait.and.arrow.right")
-                                        .font(.system(size: 18, weight: .medium))
-                                        .foregroundColor(.red)
-                                    
-                                    Text("退出登录")
-                                        .font(.custom("MF DianHei", size: 16))
-                                        .fontWeight(.medium)
-                                        .foregroundColor(.red)
-                                    
-                                    Spacer()
+                            // 功能按钮区
+                            VStack(spacing: 12) {
+                                // 修改数据按钮
+                                Button(action: {
+                                    if let user = authViewModel.user {
+                                        authViewModel.height = user.height != nil ? "\(user.height!)" : ""
+                                        authViewModel.weight = user.weight != nil ? "\(user.weight!)" : ""
+                                        showEditData = true
+                                    }
+                                }) {
+                                    HStack(spacing: 12) {
+                                        Image(systemName: "ruler")
+                                            .font(.system(size: 18, weight: .medium))
+                                            .foregroundColor(.themeColor)
+                                        
+                                        Text("修改数据")
+                                            .font(.custom("MF DianHei", size: 16))
+                                            .fontWeight(.medium)
+                                            .foregroundColor(.textPrimary)
+                                        
+                                        Spacer()
+                                        
+                                        Image(systemName: "chevron.right")
+                                            .font(.system(size: 14, weight: .medium))
+                                            .foregroundColor(.gray)
+                                    }
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 16)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .fill(Color.white)
+                                            .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+                                    )
                                 }
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 16)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(Color.white)
-                                        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
-                                )
+                                
+                                // 设置按钮
+                                Button(action: {
+                                    showSettings = true
+                                }) {
+                                    HStack(spacing: 12) {
+                                        Image(systemName: "gear")
+                                            .font(.system(size: 18, weight: .medium))
+                                            .foregroundColor(.themeColor)
+                                        
+                                        Text("设置")
+                                            .font(.custom("MF DianHei", size: 16))
+                                            .fontWeight(.medium)
+                                            .foregroundColor(.textPrimary)
+                                        
+                                        Spacer()
+                                        
+                                        Image(systemName: "chevron.right")
+                                            .font(.system(size: 14, weight: .medium))
+                                            .foregroundColor(.gray)
+                                    }
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 16)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .fill(Color.white)
+                                            .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+                                    )
+                                }
+                                
+                                // 退出登录按钮
+                                Button(action: {
+                                    showLogoutConfirmation = true
+                                }) {
+                                    HStack(spacing: 12) {
+                                        Image(systemName: "rectangle.portrait.and.arrow.right")
+                                            .font(.system(size: 18, weight: .medium))
+                                            .foregroundColor(.red)
+                                        
+                                        Text("退出登录")
+                                            .font(.custom("MF DianHei", size: 16))
+                                            .fontWeight(.medium)
+                                            .foregroundColor(.red)
+                                        
+                                        Spacer()
+                                    }
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 16)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .fill(Color.white)
+                                            .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+                                    )
+                                }
                             }
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 30)
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 30)
+                        .padding(.top, 15)
                     }
                 }
             }

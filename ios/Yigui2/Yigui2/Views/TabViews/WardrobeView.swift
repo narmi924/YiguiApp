@@ -96,14 +96,13 @@ struct WardrobeView: View {
                     
                     Spacer()
                 }
-                .padding(.top)
-                .sheet(item: $viewModel.selectedClothing) { clothing in
-                    ClothingDetailView(clothing: clothing, viewModel: viewModel)
+                .navigationBarHidden(true)
+                .onAppear {
+                    viewModel.loadClothes()
                 }
             }
-            .navigationBarHidden(true)
-            .onAppear {
-                viewModel.loadClothes()
+            .sheet(item: $viewModel.selectedClothing) { clothing in
+                ClothingDetailView(clothing: clothing, viewModel: viewModel)
             }
         }
     }

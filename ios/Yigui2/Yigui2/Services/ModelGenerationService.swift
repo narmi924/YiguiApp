@@ -53,11 +53,7 @@ class ModelGenerationService {
             do {
                 print("🧠 开始使用CoreML预测身体比例...")
                 
-                // 1. 获取身体比例预测（暂时不需要，服务器端有完整逻辑）
-                // let prediction = try await shapePredictorService.predict(height: height, weight: weight)
-                // print("📊 预测结果 - 胸围比例: \(prediction.chest), 腰围比例: \(prediction.waist), 大腿比例: \(prediction.thigh)")
-                
-                // 2. 准备请求数据（使用服务器API格式）
+                // 准备请求数据（使用服务器API格式）
                 let requestData = ServerModelRequest(
                     gender: gender,  // 使用传入的性别参数
                     height: height,
@@ -69,12 +65,12 @@ class ModelGenerationService {
                 
                 print("📤 发送模型生成请求到服务器...")
                 
-                // 3. 发送POST请求并接收GLB文件URL
+                // 发送POST请求并接收GLB文件URL
                 let modelUrl = try await sendModelGenerationRequest(requestData: requestData)
                 
                 print("✅ 成功生成并下载定制模型")
                 
-                // 4. 在主线程返回结果
+                // 在主线程返回结果
                 DispatchQueue.main.async {
                     completion(.success(modelUrl))
                 }
