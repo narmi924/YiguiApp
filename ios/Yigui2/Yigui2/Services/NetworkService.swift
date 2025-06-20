@@ -266,18 +266,20 @@ class NetworkService {
         return response
     }
     
+    // MARK: - 公共方法，供其他服务使用
+    
     // 通用POST请求方法
-    private func makePostRequest<T: Decodable>(to endpoint: String, body: [String: Any], token: String? = nil, responseType: T.Type) async throws -> T? {
+    func makePostRequest<T: Decodable>(to endpoint: String, body: [String: Any], token: String? = nil, responseType: T.Type) async throws -> T? {
         return try await performPostRequest(endpoint: endpoint, body: body, token: token, responseType: responseType)
     }
     
     // 通用GET请求方法
-    private func makeGetRequest<T: Decodable>(to endpoint: String, token: String? = nil, responseType: T.Type) async throws -> T? {
+    func makeGetRequest<T: Decodable>(to endpoint: String, token: String? = nil, responseType: T.Type) async throws -> T? {
         return try await performGetRequest(endpoint: endpoint, token: token, responseType: responseType)
     }
     
     // 实际执行POST请求的方法
-    private func performPostRequest<T: Decodable>(endpoint: String, body: [String: Any], token: String? = nil, responseType: T.Type) async throws -> T? {
+    func performPostRequest<T: Decodable>(endpoint: String, body: [String: Any], token: String? = nil, responseType: T.Type) async throws -> T? {
         guard let url = URL(string: baseURL + endpoint) else {
             throw NetworkError.invalidURL
         }
@@ -345,7 +347,7 @@ class NetworkService {
     }
     
     // 实际执行GET请求的方法
-    private func performGetRequest<T: Decodable>(endpoint: String, token: String? = nil, responseType: T.Type) async throws -> T? {
+    func performGetRequest<T: Decodable>(endpoint: String, token: String? = nil, responseType: T.Type) async throws -> T? {
         guard let url = URL(string: baseURL + endpoint) else {
             throw NetworkError.invalidURL
         }

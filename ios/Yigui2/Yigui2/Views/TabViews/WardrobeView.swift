@@ -38,13 +38,22 @@ struct WardrobeView: View {
                                     .tabLabelStyle(isSelected: selectedTab == 0)
                             }
                             
-                            ForEach(Array(ClothingType.allCases.enumerated()), id: \.element) { index, type in
+                            // 套装选项放在前面
+                            Button(action: {
+                                viewModel.setFilter(.outfit)
+                                selectedTab = 1
+                            }) {
+                                Text("套装")
+                                    .tabLabelStyle(isSelected: selectedTab == 1)
+                            }
+                            
+                            ForEach(Array(ClothingType.allCases.filter { $0 != .outfit }.enumerated()), id: \.element) { index, type in
                                 Button(action: {
                                     viewModel.setFilter(type)
-                                    selectedTab = index + 1
+                                    selectedTab = index + 2
                                 }) {
                                     Text(type.rawValue)
-                                        .tabLabelStyle(isSelected: selectedTab == index + 1)
+                                        .tabLabelStyle(isSelected: selectedTab == index + 2)
                                 }
                             }
                         }
@@ -116,22 +125,31 @@ struct WardrobeItemView: View {
         VStack {
             ZStack {
                 RoundedRectangle(cornerRadius: 15)
-                    .fill(Color(hex: clothing.color ?? "FFFFFF"))
-                    .frame(width: 160, height: 160)
+                    .fill(Color.white)
+                    .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
                 
-                // 如果有图片则显示图片，否则显示图标
-                if clothing.imageURL != nil {
-                    Image(systemName: "photo")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 80, height: 80)
-                        .foregroundColor(.white)
-                } else {
-                    Image(systemName: clothingIcon(for: clothing.type))
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 80, height: 80)
-                        .foregroundColor(.white)
+                VStack(spacing: 10) {
+                    // 如果有图片则显示图片，否则显示图标
+                    if clothing.imageURL != nil {
+                        Image(systemName: "photo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80, height: 80)
+                            .foregroundColor(.gray)
+                    } else if clothing.name == "夏日套装" {
+                        // 夏日套装使用本地图片
+                        Image("夏日套装")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                            .clipped()
+                    } else {
+                        Image(systemName: clothingIcon(for: clothing.type))
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80, height: 80)
+                            .foregroundColor(.gray)
+                    }
                 }
             }
             
@@ -154,6 +172,8 @@ struct WardrobeItemView: View {
             return "person.fill"
         case .jacket, .coat:
             return "tshirt.fill"
+        case .outfit:
+            return "person.2.fill"
         case .other:
             return "circle.grid.hex.fill"
         }
@@ -176,8 +196,8 @@ struct ClothingDetailView: View {
                     // 衣物预览
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
-                            .fill(Color(hex: clothing.color ?? "FFFFFF"))
-                            .frame(height: 300)
+                            .fill(Color.white)
+                            .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
                         
                         // 如果有图片则显示图片，否则显示图标
                         if clothing.imageURL != nil {
@@ -185,16 +205,23 @@ struct ClothingDetailView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 150, height: 150)
-                                .foregroundColor(.white)
+                                .foregroundColor(.gray)
+                        } else if clothing.name == "夏日套装" {
+                            // 夏日套装使用本地图片
+                            Image("夏日套装")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 200, height: 200)
+                                .clipped()
                         } else {
                             Image(systemName: clothingIcon(for: clothing.type))
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 150, height: 150)
-                                .foregroundColor(.white)
+                                .foregroundColor(.gray)
                         }
                     }
-                    .padding()
+                    .frame(width: 300, height: 300)
                     
                     // 衣物信息
                     VStack(alignment: .leading, spacing: 10) {
@@ -295,6 +322,8 @@ struct ClothingDetailView: View {
             return "person.fill"
         case .jacket, .coat:
             return "tshirt.fill"
+        case .outfit:
+            return "person.2.fill"
         case .other:
             return "circle.grid.hex.fill"
         }

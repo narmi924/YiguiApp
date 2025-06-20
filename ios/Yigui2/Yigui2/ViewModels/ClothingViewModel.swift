@@ -22,56 +22,48 @@ class ClothingViewModel: ObservableObject {
     func loadClothes() {
         isLoading = true
         
-        // 首先从本地存储加载数据
-        if let savedClothes = loadSavedClothes() {
-            self.clothes = savedClothes
-            isLoading = false
-            return
-        }
+        // 暂时跳过本地存储，直接加载示例衣物以确保显示所有数据
+        // 在实际应用中，这里应该是从服务器加载衣物
+        let sampleClothes = [
+            Clothing(
+                name: "白色T恤",
+                type: .tshirt,
+                imageURL: URL(string: "https://example.com/clothes/white_tshirt.jpg"),
+                color: "FFFFFF"
+            ),
+            Clothing(
+                name: "黑色T恤",
+                type: .tshirt,
+                imageURL: URL(string: "https://example.com/clothes/black_tshirt.jpg"),
+                color: "000000"
+            ),
+            Clothing(
+                name: "蓝色牛仔裤",
+                type: .jeans,
+                imageURL: URL(string: "https://example.com/clothes/blue_jeans.jpg"),
+                color: "0000FF"
+            ),
+            Clothing(
+                name: "红色连衣裙",
+                type: .dress,
+                imageURL: URL(string: "https://example.com/clothes/red_dress.jpg"),
+                color: "FF0000"
+            ),
+            Clothing(
+                name: "黑色夹克",
+                type: .jacket,
+                imageURL: URL(string: "https://example.com/clothes/black_jacket.jpg"),
+                color: "000000"
+            ),
+            Clothing(
+                name: "夏日套装",
+                type: .outfit,
+                color: "87CEEB"
+            )
+        ]
         
-        // 如果没有本地数据，加载示例衣物
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: DispatchWorkItem(block: {
-            // 在实际应用中，这里应该是从服务器加载衣物
-            // 为了演示，我们创建一些示例衣物
-            let sampleClothes = [
-                Clothing(
-                    name: "白色T恤",
-                    type: .tshirt,
-                    imageURL: URL(string: "https://example.com/clothes/white_tshirt.jpg"),
-                    color: "FFFFFF"
-                ),
-                Clothing(
-                    name: "黑色T恤",
-                    type: .tshirt,
-                    imageURL: URL(string: "https://example.com/clothes/black_tshirt.jpg"),
-                    color: "000000"
-                ),
-                Clothing(
-                    name: "蓝色牛仔裤",
-                    type: .jeans,
-                    imageURL: URL(string: "https://example.com/clothes/blue_jeans.jpg"),
-                    color: "0000FF"
-                ),
-                Clothing(
-                    name: "红色连衣裙",
-                    type: .dress,
-                    imageURL: URL(string: "https://example.com/clothes/red_dress.jpg"),
-                    color: "FF0000"
-                ),
-                Clothing(
-                    name: "黑色夹克",
-                    type: .jacket,
-                    imageURL: URL(string: "https://example.com/clothes/black_jacket.jpg"),
-                    color: "000000"
-                )
-            ]
-            
-            self.clothes = sampleClothes
-            self.isLoading = false
-            
-            // 保存衣物数据
-            self.saveClothes()
-        }))
+        self.clothes = sampleClothes
+        self.isLoading = false
     }
     
     // 添加新衣物

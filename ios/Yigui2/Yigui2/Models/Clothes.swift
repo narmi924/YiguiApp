@@ -11,6 +11,7 @@ enum ClothingType: String, Codable, CaseIterable {
     case dress = "连衣裙"
     case jacket = "夹克"
     case coat = "外套"
+    case outfit = "套装"
     case other = "其他"
 }
 

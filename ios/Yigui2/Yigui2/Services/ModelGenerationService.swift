@@ -215,7 +215,7 @@ class ModelGenerationService {
                 
                 // 如果URL路径包含{nickname}_models格式的子目录
                 if modelsIndex + 1 < urlComponents.count {
-                    let folderName = urlComponents[modelsIndex + 1] // 例如：Alice_models
+                    let folderName = urlComponents[modelsIndex + 1]
                     if folderName.hasSuffix("_models") && urlComponents.count > modelsIndex + 2 {
                         let originalFileName = urlComponents.last ?? "model.glb"
                         modelFileName = "\(folderName)_\(originalFileName)"
