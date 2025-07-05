@@ -508,6 +508,7 @@ struct SettingsView: View {
     @State private var darkModeEnabled = false
     @State private var language = "简体中文"
     @State private var showClearCacheConfirmation = false
+    @State private var cacheSize = "计算中..."
     
     var body: some View {
         NavigationView {
@@ -531,6 +532,39 @@ struct SettingsView: View {
                                 Image(systemName: "chevron.right")
                                     .foregroundColor(.gray)
                                     .font(.system(size: 14))
+                            }
+                        }
+                        
+                        Section(header: Text("存储管理").font(.custom("MF DianHei", size: 16))) {
+                            // 🚀 缓存大小显示
+                            HStack {
+                                Image(systemName: "internaldrive")
+                                    .foregroundColor(.themeColor)
+                                    .font(.system(size: 16))
+                                
+                                Text("模型缓存大小")
+                                
+                                Spacer()
+                                
+                                Text(cacheSize)
+                                    .foregroundColor(.gray)
+                                    .font(.system(size: 14))
+                            }
+                            
+                            // 🚀 清除缓存按钮
+                            Button(action: {
+                                showClearCacheConfirmation = true
+                            }) {
+                                HStack {
+                                    Image(systemName: "trash")
+                                        .foregroundColor(.red)
+                                        .font(.system(size: 16))
+                                    
+                                    Text("清除模型缓存")
+                                        .foregroundColor(.red)
+                                    
+                                    Spacer()
+                                }
                             }
                         }
                         
@@ -559,13 +593,6 @@ struct SettingsView: View {
                                 Text("1.0.0")
                                     .foregroundColor(.gray)
                             }
-                            
-                            Button(action: {
-                                showClearCacheConfirmation = true
-                            }) {
-                                Text("清除缓存")
-                                    .foregroundColor(.red)
-                            }
                         }
                     }
                     .listStyle(InsetGroupedListStyle())
@@ -582,15 +609,41 @@ struct SettingsView: View {
                         }
                     }
                 }
+                .onAppear {
+                    // 🚀 页面出现时更新缓存大小
+                    updateCacheSize()
+                }
                 .alert("确认清除缓存", isPresented: $showClearCacheConfirmation) {
                     Button("取消", role: .cancel) { }
                     Button("清除", role: .destructive) {
-                        // 清除缓存的逻辑
+                        // 🚀 清除缓存的逻辑
+                        clearModelCache()
                     }
                 } message: {
-                    Text("确定要清除所有缓存数据吗？此操作无法撤销。")
+                    Text("确定要清除所有模型缓存数据吗？下次需要重新从网络下载模型。")
                 }
             }
+        }
+    }
+    
+    // 🚀 更新缓存大小显示
+    private func updateCacheSize() {
+        Task {
+            let size = ModelCacheService.shared.getCacheSize()
+            await MainActor.run {
+                self.cacheSize = size
+            }
+        }
+    }
+    
+    // 🚀 清除模型缓存
+    private func clearModelCache() {
+        ModelCacheService.shared.clearCache()
+        print("🗑️ 用户手动清除了模型缓存")
+        
+        // 更新缓存大小显示
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            updateCacheSize()
         }
     }
 }

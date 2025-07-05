@@ -450,7 +450,7 @@ class DesignService: ObservableObject {
                 throw NetworkError.invalidResponse
             }
             
-            print("📡 设计服务器响应状态码: \(httpResponse.statusCode)")
+
             
             if httpResponse.statusCode == 200 {
                 let generateResponse = try JSONDecoder().decode(DesignGenerateResponse.self, from: data)

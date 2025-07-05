@@ -41,13 +41,13 @@ struct MainTabView: View {
         }
         .accentColor(Color.themeColor)
         .onAppear {
-            print("📱 主应用加载，检查用户登录状态")
+    
             // 确保用户信息已正确加载
             if authViewModel.user == nil && UserDefaults.standard.string(forKey: "token") != nil {
                 print("🔄 检测到token但用户信息为空，重新加载用户状态")
                 authViewModel.loadUserState()
             } else if let user = authViewModel.user {
-                print("✅ 用户信息已存在: \(user.nickname), 性别: \(user.gender)")
+
             } else {
                 print("⚠️ 未检测到用户信息和token")
             }

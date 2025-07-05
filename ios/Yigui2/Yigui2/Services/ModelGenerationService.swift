@@ -3,11 +3,24 @@ import SwiftUI
 import SceneKit
 
 // 模型生成服务错误类型
-enum ModelGenerationError: Error {
+enum ModelGenerationError: Error, CustomStringConvertible {
     case predictionFailed(String)
     case networkError(String)
     case downloadFailed(String)
     case modelLoadingFailed(String)
+
+    var description: String {
+        switch self {
+        case .predictionFailed(let message):
+            return "预测失败: \(message)"
+        case .networkError(let message):
+            return "网络错误: \(message)"
+        case .downloadFailed(let message):
+            return "下载失败: \(message)"
+        case .modelLoadingFailed(let message):
+            return "模型加载失败: \(message)"
+        }
+    }
 }
 
 // 模型生成请求体
@@ -19,7 +32,20 @@ struct ModelGenerationRequest: Codable {
     let thigh: Double
 }
 
-// 模型生成响应体
+// 模型生成响应体（异步模式）
+struct AsyncModelGenerationResponse: Codable {
+    let task_id: String
+}
+
+// 任务状态响应体
+struct TaskStatusResponse: Codable {
+    let status: String
+    let url: String? // 改为单个URL字符串，而不是多个URL的字典
+    let progress: Int? // 可选的进度信息
+    let message: String? // 可选的状态消息
+}
+
+// 模型生成响应体（保留用于兼容性）
 struct ModelGenerationResponse: Codable {
     let glb_url: String
 }
@@ -32,11 +58,16 @@ struct ServerModelRequest: Codable {
     let age: Int
     let texture: String
     let nickname: String
+    let chest_ratio: Double?
+    let waist_ratio: Double?
+    let thigh_ratio: Double?
 }
 
 class ModelGenerationService {
     // 更新为新的服务器域名 - 模型生成接口
     private let serverEndpoint = "https://yiguiapp.xyz/generate"
+    // 任务状态查询接口
+    private let taskStatusEndpoint = "https://yiguiapp.xyz/task_status"
     
     // 身体形状预测服务
     private let shapePredictorService: BodyShapePredictorService
@@ -46,6 +77,140 @@ class ModelGenerationService {
         self.shapePredictorService = try BodyShapePredictorService()
     }
     
+    // 新的异步模型生成方法 - 返回task_id
+    func generateModelAsync(height: Double, weight: Double, nickname: String, gender: String = "male", texture: String = "shirt.glb") async throws -> String {
+        print("🧠 开始使用CoreML预测身体比例...")
+        
+        // 1. 调用CoreML服务进行预测
+        let prediction = try await shapePredictorService.predict(height: height, weight: weight)
+        print("📈 CoreML 预测结果: chest=\(prediction.chest), waist=\(prediction.waist), thigh=\(prediction.thigh)")
+        
+        // 2. 准备包含新参数的请求数据
+        let requestData = ServerModelRequest(
+            gender: gender,
+            height: height,
+            weight: weight,
+            age: 25, // 默认年龄
+            texture: texture,
+            nickname: nickname,
+            // 传递CoreML预测出的比例
+            chest_ratio: prediction.chest,
+            waist_ratio: prediction.waist,
+            thigh_ratio: prediction.thigh
+        )
+        
+        print("📤 发送包含CoreML比例的模型生成请求到服务器...")
+        
+        // 发送POST请求并接收task_id
+        let taskId = try await sendAsyncModelGenerationRequest(requestData: requestData)
+        
+        print("✅ 成功提交模型生成任务，task_id: \(taskId)")
+        return taskId
+    }
+    
+    // 轮询任务状态
+    func pollTaskStatus(nickname: String, taskId: String) async throws -> TaskStatusResponse {
+        // 构建轮询URL: /task_status/{nickname}/{task_id}
+        let pollURL = "\(taskStatusEndpoint)/\(nickname)/\(taskId)"
+        
+        guard let url = URL(string: pollURL) else {
+            throw ModelGenerationError.networkError("无效的轮询URL")
+        }
+        
+        // 创建GET请求
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        print("📋 轮询任务状态: \(pollURL)")
+        
+        // 发送请求并等待响应
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            // 检查HTTP响应
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw ModelGenerationError.networkError("无效的HTTP响应")
+            }
+            
+
+            
+            // 检查状态码
+            guard (200...299).contains(httpResponse.statusCode) else {
+                let errorMessage = String(data: data, encoding: .utf8) ?? "未知错误"
+                throw ModelGenerationError.networkError("轮询失败: \(httpResponse.statusCode), 详情: \(errorMessage)")
+            }
+            
+            // 打印原始响应数据用于调试
+            let responseString = String(data: data, encoding: .utf8) ?? "无法解析响应数据"
+            print("🔍 服务器原始响应: \(responseString)")
+            
+            // 解析任务状态响应
+            let taskStatusResponse = try JSONDecoder().decode(TaskStatusResponse.self, from: data)
+            print("📊 任务状态: \(taskStatusResponse.status)")
+            
+            // 打印详细的响应信息
+            if let url = taskStatusResponse.url {
+                print("📦 返回的URL: \(url)")
+            } else {
+                print("⚠️ 服务器响应中没有url字段")
+            }
+            
+            if let progress = taskStatusResponse.progress {
+                print("📈 进度: \(progress)%")
+            }
+            
+            if let message = taskStatusResponse.message {
+                print("💬 消息: \(message)")
+            }
+            
+            return taskStatusResponse
+        } catch {
+            throw ModelGenerationError.networkError("轮询请求失败: \(error.localizedDescription)")
+        }
+    }
+    
+    // 发送异步模型生成请求到服务器 - 返回task_id
+    private func sendAsyncModelGenerationRequest(requestData: ServerModelRequest) async throws -> String {
+        // 创建URL对象
+        guard let url = URL(string: serverEndpoint) else {
+            throw ModelGenerationError.networkError("无效的服务器URL")
+        }
+        
+        // 创建请求对象
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // 编码请求数据
+        let jsonData = try JSONEncoder().encode(requestData)
+        request.httpBody = jsonData
+        
+        print("📤 发送异步请求数据: \(String(data: jsonData, encoding: .utf8) ?? "无法编码")")
+        
+        // 发送请求并等待响应
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            // 检查HTTP响应
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw ModelGenerationError.networkError("无效的HTTP响应")
+            }
+            
+            // 检查状态码
+            guard (200...299).contains(httpResponse.statusCode) else {
+                let errorMessage = String(data: data, encoding: .utf8) ?? "未知错误"
+                throw ModelGenerationError.networkError("服务器返回错误: \(httpResponse.statusCode), 详情: \(errorMessage)")
+            }
+            
+            // 解析包含task_id的响应
+            let responseObj = try JSONDecoder().decode(AsyncModelGenerationResponse.self, from: data)
+            print("📦 收到task_id: \(responseObj.task_id)")
+            return responseObj.task_id
+        } catch {
+            throw ModelGenerationError.networkError("异步请求失败: \(error.localizedDescription)")
+        }
+    }
+    
     // 生成并加载模型的完整流程
     func generateAndLoadModel(height: Double, weight: Double, nickname: String, gender: String = "male", texture: String = "shirt.glb", completion: @escaping (Result<URL, ModelGenerationError>) -> Void) {
         // 创建后台任务
@@ -53,17 +218,25 @@ class ModelGenerationService {
             do {
                 print("🧠 开始使用CoreML预测身体比例...")
                 
-                // 准备请求数据（使用服务器API格式）
+                // 1. 调用CoreML服务进行预测
+                let prediction = try await shapePredictorService.predict(height: height, weight: weight)
+                print("📈 CoreML 预测结果: chest=\(prediction.chest), waist=\(prediction.waist), thigh=\(prediction.thigh)")
+                
+                // 2. 准备包含新参数的请求数据
                 let requestData = ServerModelRequest(
-                    gender: gender,  // 使用传入的性别参数
+                    gender: gender,
                     height: height,
                     weight: weight,
                     age: 25, // 默认年龄
                     texture: texture,
-                    nickname: nickname
+                    nickname: nickname,
+                    // 传递CoreML预测出的比例
+                    chest_ratio: prediction.chest,
+                    waist_ratio: prediction.waist,
+                    thigh_ratio: prediction.thigh
                 )
                 
-                print("📤 发送模型生成请求到服务器...")
+                print("📤 发送包含CoreML比例的模型生成请求到服务器...")
                 
                 // 发送POST请求并接收GLB文件URL
                 let modelUrl = try await sendModelGenerationRequest(requestData: requestData)
@@ -75,10 +248,17 @@ class ModelGenerationService {
                     completion(.success(modelUrl))
                 }
             } catch let error as ModelGenerationError {
+                print("❌ 捕获到 ModelGenerationError: \(error.description)")
                 DispatchQueue.main.async {
                     completion(.failure(error))
                 }
+            } catch let error as BodyShapePredictorError {
+                print("❌ 捕获到 BodyShapePredictorError: \(error.description)")
+                DispatchQueue.main.async {
+                    completion(.failure(.predictionFailed("CoreML 预测失败 - \(error.description)")))
+                }
             } catch {
+                print("❌ 捕获到未知错误: \(error.localizedDescription)")
                 DispatchQueue.main.async {
                     completion(.failure(.predictionFailed(error.localizedDescription)))
                 }
@@ -112,8 +292,6 @@ class ModelGenerationService {
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw ModelGenerationError.networkError("无效的HTTP响应")
             }
-            
-            print("📥 服务器响应状态码: \(httpResponse.statusCode)")
             
             // 检查状态码
             guard (200...299).contains(httpResponse.statusCode) else {
@@ -171,7 +349,7 @@ class ModelGenerationService {
     }
     
     // 直接下载GLB文件
-    private func downloadGLBFile(glbUrl: String) async throws -> URL {
+    func downloadGLBFile(glbUrl: String) async throws -> URL {
         // 确保使用HTTPS链接
         var httpsUrl = glbUrl
         if glbUrl.hasPrefix("http://") {

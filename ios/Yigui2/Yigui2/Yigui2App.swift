@@ -59,10 +59,34 @@ struct Yigui2App: App {
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        
+        #if targetEnvironment(simulator)
+        // 在模拟器中减少系统级错误
+        configureSimulatorSettings()
+        #endif
+        
         // 创建必要的目录结构
         createDirectoryStructure()
         return true
     }
+    
+    #if targetEnvironment(simulator)
+    // 配置模拟器特定设置以减少错误
+    private func configureSimulatorSettings() {
+        // 禁用一些可能导致eligibility错误的系统功能
+        UserDefaults.standard.set(false, forKey: "SBShowNonDefaultSystemApps")
+        UserDefaults.standard.set(false, forKey: "SBAllowUnknownApps")
+        
+        // 设置适合模拟器的配置
+        if #available(iOS 13.0, *) {
+            // 禁用一些可能触发系统级别错误的功能
+            UserDefaults.standard.set(true, forKey: "com.apple.CoreData.ConcurrencyDebug")
+        }
+        
+        // 安静模式：减少系统日志输出
+        setenv("OS_ACTIVITY_MODE", "disable", 1)
+    }
+    #endif
     
     // 创建必要的目录结构
     private func createDirectoryStructure() {
@@ -79,7 +103,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         do {
             if !fileManager.fileExists(atPath: modelsDirectory.path) {
                 try fileManager.createDirectory(at: modelsDirectory, withIntermediateDirectories: true)
-                print("✅ 创建Models目录: \(modelsDirectory.path)")
             }
         } catch {
             print("❌ 创建Models目录失败: \(error.localizedDescription)")
@@ -90,12 +113,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         do {
             if !fileManager.fileExists(atPath: textureDirectory.path) {
                 try fileManager.createDirectory(at: textureDirectory, withIntermediateDirectories: true)
-                print("✅ 创建Textures目录: \(textureDirectory.path)")
             }
         } catch {
             print("❌ 创建Textures目录失败: \(error.localizedDescription)")
         }
-        
-        print("📁 应用目录结构初始化完成")
     }
 }

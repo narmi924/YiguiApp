@@ -101,6 +101,10 @@ class AuthViewModel: ObservableObject {
                 
                 // 更新UI状态
                 await MainActor.run {
+                    // 🚀 清除之前用户的缓存
+                    ModelCacheService.shared.clearCache()
+                    print("🗑️ 已清除上一个用户的缓存")
+                    
                     self.isNewUser = true // 标记为新注册用户
                     self.isLoggedIn = true
                     self.isLoading = false
@@ -143,6 +147,10 @@ class AuthViewModel: ObservableObject {
                 
                 // 更新UI状态
                 await MainActor.run {
+                    // 🚀 清除之前用户的缓存
+                    ModelCacheService.shared.clearCache()
+                    print("🗑️ 已清除上一个用户的缓存")
+                    
                     self.isNewUser = false // 标记为已存在用户
                     self.isLoggedIn = true
                     self.isLoading = false
@@ -345,10 +353,13 @@ class AuthViewModel: ObservableObject {
     
     // 更新用户信息
     func updateUserInfo() async {
-        guard var user = user else { 
+        guard let currentUser = user else { 
             print("❌ 更新用户信息失败：用户对象为空")
             return 
         }
+        
+        // 创建用户的本地副本以避免并发访问问题
+        var user = currentUser
         guard let token = UserDefaults.standard.string(forKey: "token") else { 
             print("❌ 更新用户信息失败：token为空")
             return 
@@ -484,7 +495,7 @@ class AuthViewModel: ObservableObject {
                 self.userInfoUpdated.send()
                 
                 // 如果收到了新token，立即使用新token重新获取用户信息以确保同步
-                if let newToken = updateResponse.new_token {
+                if updateResponse.new_token != nil {
                     print("🔄 收到新token，但跳过重新获取用户信息以避免覆盖刚更新的数据")
                     // 注释掉重新获取用户信息的逻辑，因为我们刚刚更新了数据，不需要再从服务器获取
                     // Task {
@@ -536,6 +547,10 @@ class AuthViewModel: ObservableObject {
     // 退出登录
     func logout() {
         print("🚪 开始退出登录流程")
+        
+        // 🚀 清除模型缓存
+        ModelCacheService.shared.clearCache()
+        print("🗑️ 模型缓存已清除")
         
         // 清空用户对象和状态
         user = nil
@@ -599,8 +614,8 @@ class AuthViewModel: ObservableObject {
                 self.nickname = decodedUser.nickname // 同步昵称
                 self.email = decodedUser.email // 同步邮箱
                 
-                print("📱 从本地加载用户状态: email=\(decodedUser.email), nickname=\(decodedUser.nickname), gender=\(decodedUser.gender)")
-                print("📱 用户状态判断: isNewUser=\(self.isNewUser), hasCompleteInfo=\(hasCompleteInfo)")
+    
+
             } catch {
                 print("解析用户数据失败: \(error.localizedDescription)")
                 // 清除无效的用户数据
@@ -650,7 +665,8 @@ class AuthViewModel: ObservableObject {
             let base64String = imageData.base64EncodedString()
             
             // 如果有用户对象，立即更新其头像URL
-            if var user = self.user {
+            if let currentUser = self.user {
+                var user = currentUser  // 创建本地副本
                 user.avatarURL = URL(string: "data:image/jpeg;base64,\(base64String)")
                 self.user = user
                 print("✅ 头像已更新，压缩后大小: \(imageData.count) bytes")

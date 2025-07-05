@@ -9,9 +9,18 @@ struct BodyShapePrediction {
 }
 
 // 预测时可能出现的错误
-enum BodyShapePredictorError: Error {
+enum BodyShapePredictorError: Error, CustomStringConvertible {
     case modelLoadingFailed(String)
     case predictionFailed(String)
+
+    var description: String {
+        switch self {
+        case .modelLoadingFailed(let reason):
+            return "模型加载失败: \(reason)"
+        case .predictionFailed(let reason):
+            return "预测执行失败: \(reason)"
+        }
+    }
 }
 
 class BodyShapePredictorService {
@@ -34,7 +43,7 @@ class BodyShapePredictorService {
             waistModel = try Waist_Ratio(configuration: waistConfig).model
             thighModel = try Thigh_Ratio(configuration: thighConfig).model
             
-            print("✅ 成功加载所有CoreML模型")
+            print("✅ CoreML模型加载完成")
             
         } catch {
             print("❌ 加载CoreML模型失败：\(error.localizedDescription)")
@@ -53,39 +62,67 @@ class BodyShapePredictorService {
                 throw BodyShapePredictorError.modelLoadingFailed("模型未正确加载")
             }
             
-            // 准备输入数据
-            let inputFeatures: [String: MLFeatureValue] = [
-                "height": MLFeatureValue(double: height),
-                "weight": MLFeatureValue(double: weight)
-            ]
-            
-            do {
-                // 创建输入数据
-                let chestInput = try MLDictionaryFeatureProvider(dictionary: inputFeatures)
-                let waistInput = try MLDictionaryFeatureProvider(dictionary: inputFeatures)
-                let thighInput = try MLDictionaryFeatureProvider(dictionary: inputFeatures)
-                
-                // 执行预测
-                let chestOutput = try chestModel.prediction(from: chestInput)
-                let waistOutput = try waistModel.prediction(from: waistInput)
-                let thighOutput = try thighModel.prediction(from: thighInput)
-                
-                // 提取预测结果
-                guard let chestRatio = chestOutput.featureValue(for: "chest_ratio")?.doubleValue,
-                      let waistRatio = waistOutput.featureValue(for: "waist_ratio")?.doubleValue,
-                      let thighRatio = thighOutput.featureValue(for: "thigh_ratio")?.doubleValue else {
-                    throw BodyShapePredictorError.predictionFailed("无法获取预测结果")
+            // 初始化默认比例值，以启动迭代
+            var estimatedChestRatio = 1.0
+            var estimatedWaistRatio = 1.0
+            var estimatedThighRatio = 1.0
+
+            // 通过迭代解决模型间的循环依赖问题，3次迭代足以收敛
+            for i in 0..<3 {
+                print("🔄 开始第 \(i + 1) 轮迭代预测...")
+                do {
+                    // 1. 预测胸围比例
+                    let chestInputFeatures: [String: MLFeatureValue] = [
+                        "height_cm": MLFeatureValue(double: height),
+                        "weight_kg": MLFeatureValue(double: weight),
+                        "waist_ratio": MLFeatureValue(double: estimatedWaistRatio),
+                        "thigh_ratio": MLFeatureValue(double: estimatedThighRatio)
+                    ]
+                    let chestInput = try MLDictionaryFeatureProvider(dictionary: chestInputFeatures)
+                    let chestOutput = try chestModel.prediction(from: chestInput)
+                    if let newChestRatio = chestOutput.featureValue(for: "chest_ratio")?.doubleValue {
+                        estimatedChestRatio = newChestRatio
+                    }
+
+                    // 2. 预测腰围比例 (使用上一部预测出的新胸围)
+                    let waistInputFeatures: [String: MLFeatureValue] = [
+                        "height_cm": MLFeatureValue(double: height),
+                        "weight_kg": MLFeatureValue(double: weight),
+                        "chest_ratio": MLFeatureValue(double: estimatedChestRatio),
+                        "thigh_ratio": MLFeatureValue(double: estimatedThighRatio)
+                    ]
+                    let waistInput = try MLDictionaryFeatureProvider(dictionary: waistInputFeatures)
+                    let waistOutput = try waistModel.prediction(from: waistInput)
+                    if let newWaistRatio = waistOutput.featureValue(for: "waist_ratio")?.doubleValue {
+                        estimatedWaistRatio = newWaistRatio
+                    }
+
+                    // 3. 预测大腿围比例 (使用新的胸围和腰围)
+                    let thighInputFeatures: [String: MLFeatureValue] = [
+                        "height_cm": MLFeatureValue(double: height),
+                        "weight_kg": MLFeatureValue(double: weight),
+                        "chest_ratio": MLFeatureValue(double: estimatedChestRatio),
+                        "waist_ratio": MLFeatureValue(double: estimatedWaistRatio)
+                    ]
+                    let thighInput = try MLDictionaryFeatureProvider(dictionary: thighInputFeatures)
+                    let thighOutput = try thighModel.prediction(from: thighInput)
+                    if let newThighRatio = thighOutput.featureValue(for: "thigh_ratio")?.doubleValue {
+                        estimatedThighRatio = newThighRatio
+                    }
+                    
+                    print("    - 第 \(i + 1) 轮结果: Chest=\(String(format: "%.3f", estimatedChestRatio)), Waist=\(String(format: "%.3f", estimatedWaistRatio)), Thigh=\(String(format: "%.3f", estimatedThighRatio))")
+
+                } catch {
+                     throw BodyShapePredictorError.predictionFailed("迭代预测失败: \(error.localizedDescription)")
                 }
-                
-                // 返回预测结果
-                return BodyShapePrediction(
-                    chest: chestRatio,
-                    waist: waistRatio,
-                    thigh: thighRatio
-                )
-            } catch {
-                throw BodyShapePredictorError.predictionFailed("预测失败: \(error.localizedDescription)")
             }
+            
+            // 返回最终收敛的预测结果
+            return BodyShapePrediction(
+                chest: estimatedChestRatio,
+                waist: estimatedWaistRatio,
+                thigh: estimatedThighRatio
+            )
         }.value
     }
     

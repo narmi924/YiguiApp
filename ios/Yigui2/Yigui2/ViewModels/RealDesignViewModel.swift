@@ -79,7 +79,7 @@ class RealDesignViewModel: ObservableObject {
         designService.getPatternCategories()
             .receive(on: DispatchQueue.main)
             .sink(
-                receiveCompletion: { [weak self] completion in
+                receiveCompletion: { completion in
                     if case .failure(let error) = completion {
                         print("Failed to load pattern categories: \(error)")
                     }

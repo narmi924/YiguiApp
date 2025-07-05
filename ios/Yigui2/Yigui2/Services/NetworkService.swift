@@ -126,7 +126,7 @@ class NetworkService {
                 throw NetworkError.invalidURL
             }
             
-            print("🌐 发送HTTPS请求: \(url.absoluteString)")
+    
             
             var request = URLRequest(url: url)
             request.httpMethod = "GET"
@@ -150,7 +150,7 @@ class NetworkService {
                 let avatarURL = serverUserInfo?["avatar_url"] as? String
                 let gender = serverUserInfo?["gender"] as? String ?? "male"
                 
-                print("📋 从服务器获取用户信息: email=\(email), nickname=\(nickname ?? "nil"), gender=\(gender), height=\(height ?? 0), weight=\(weight ?? 0)")
+
                 
                 return UserResponse(
                     email: email,
@@ -164,7 +164,7 @@ class NetworkService {
                 throw NetworkError.serverError("获取用户信息失败")
             }
         } catch {
-            print("⚠️ 从服务器获取用户信息失败，尝试从token解析: \(error)")
+
             
             // 如果服务器请求失败，回退到从token解析
             let parts = token.components(separatedBy: ".")
@@ -284,8 +284,6 @@ class NetworkService {
             throw NetworkError.invalidURL
         }
         
-        print("🌐 发送HTTPS请求: \(baseURL + endpoint)")
-        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -302,8 +300,6 @@ class NetworkService {
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw NetworkError.invalidResponse
             }
-            
-            print("📡 响应状态码: \(httpResponse.statusCode)")
             
             // 处理HTTP错误
             if httpResponse.statusCode == 401 {
@@ -352,8 +348,6 @@ class NetworkService {
             throw NetworkError.invalidURL
         }
         
-        print("🌐 发送HTTPS请求: \(baseURL + endpoint)")
-        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
@@ -367,8 +361,6 @@ class NetworkService {
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw NetworkError.invalidResponse
             }
-            
-            print("📡 响应状态码: \(httpResponse.statusCode)")
             
             // 处理HTTP错误
             if httpResponse.statusCode == 401 {

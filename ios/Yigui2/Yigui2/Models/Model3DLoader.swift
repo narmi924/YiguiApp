@@ -93,11 +93,8 @@ class Model3DLoader {
     // 加载GLB格式模型
     private func loadGLBModel(from url: URL, completion: @escaping (SCNScene?) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
-            print("🔄 开始加载GLB文件: \(url.path)")
-            
             // 检查文件是否存在
             guard FileManager.default.fileExists(atPath: url.path) else {
-                print("❌ GLB文件不存在: \(url.path)")
                 DispatchQueue.main.async {
                     completion(nil)
                 }
@@ -105,24 +102,89 @@ class Model3DLoader {
             }
             
             do {
-                // 使用 GLTFSceneKit 直接加载，不做任何调整
-                print("🔄 使用 GLTFSceneKit 加载GLB文件...")
+                // 使用 GLTFSceneKit 加载并优化材质
                 let sceneSource = GLTFSceneSource(url: url)
                 let scene = try sceneSource.scene()
                 
-                print("✅ GLTFSceneKit 加载成功")
-                print("📊 场景根节点子节点数量: \(scene.rootNode.childNodes.count)")
+                // 优化所有材质以减少渲染错误
+                self.optimizeMaterials(in: scene.rootNode)
                 
                 DispatchQueue.main.async {
                     completion(scene)
                 }
             } catch {
-                print("❌ GLB文件加载失败: \(error.localizedDescription)")
+                print("❌ 3D模型加载失败: \(error.localizedDescription)")
                 DispatchQueue.main.async {
                     completion(nil)
                 }
             }
         }
+    }
+    
+    // 优化材质以减少渲染错误
+    private func optimizeMaterials(in node: SCNNode) {
+        // 处理当前节点的材质
+        node.geometry?.materials.forEach { material in
+            // 使用简单的Blinn光照模型，避免PBR复杂性
+            material.lightingModel = .blinn
+            
+            // 简化材质属性，使用兼容的数据类型
+            material.diffuse.wrapS = .repeat
+            material.diffuse.wrapT = .repeat
+            
+            // 移除可能引起转换问题的属性
+            material.normal.contents = nil
+            material.displacement.contents = nil
+            material.roughness.contents = nil
+            material.metalness.contents = nil
+            material.ambientOcclusion.contents = nil
+            
+            // 设置基本属性
+            material.isDoubleSided = true
+            material.transparency = 1.0
+            material.transparencyMode = .default
+            
+            // 确保漫反射使用简单颜色
+            if material.diffuse.contents == nil {
+                material.diffuse.contents = UIColor.lightGray
+            }
+            
+            // 禁用可能引起问题的特性
+            material.writesToDepthBuffer = true
+            material.readsFromDepthBuffer = true
+        }
+        
+        // 递归处理子节点
+        node.childNodes.forEach { optimizeMaterials(in: $0) }
+    }
+    
+    // 增强材质渲染（保留原方法以备用）
+    private func enhanceMaterials(in node: SCNNode) {
+        // 处理当前节点的材质
+        node.geometry?.materials.forEach { material in
+            // 启用PBR渲染
+            material.lightingModel = .physicallyBased
+            
+            // 增强材质属性
+            material.roughness.intensity = 0.8
+            material.metalness.intensity = 0.1
+            
+            // 设置双面渲染
+            material.isDoubleSided = true
+            
+            // 增强漫反射
+            if material.diffuse.contents == nil {
+                material.diffuse.contents = UIColor.white
+            }
+            
+            // 调整透明度
+            material.transparency = 1.0
+            
+            print("🔧 增强材质: lightingModel=\(material.lightingModel.rawValue)")
+        }
+        
+        // 递归处理子节点
+        node.childNodes.forEach { enhanceMaterials(in: $0) }
     }
     
     // 递归打印场景结构
@@ -229,33 +291,44 @@ class Model3DLoader {
     
     // 设置光源
     private func setupLighting(in scene: SCNScene) {
-        // 环境光
+        // 环境光 - 适中强度减少阴影区域的黑暗
         let ambientLightNode = SCNNode()
         ambientLightNode.light = SCNLight()
         ambientLightNode.light?.type = .ambient
         ambientLightNode.light?.color = UIColor.white
-        ambientLightNode.light?.intensity = 80
+        ambientLightNode.light?.intensity = 200 // 降低到200
         scene.rootNode.addChildNode(ambientLightNode)
         
-        // 定向光（主光源）
+        // 定向光（主光源）- 适中强度提供清晰的模型照明
         let directionalLightNode = SCNNode()
         directionalLightNode.light = SCNLight()
         directionalLightNode.light?.type = .directional
         directionalLightNode.light?.color = UIColor.white
-        directionalLightNode.light?.intensity = 800
+        directionalLightNode.light?.intensity = 600 // 降低到600
         directionalLightNode.position = SCNVector3(x: 5, y: 5, z: 5)
         directionalLightNode.eulerAngles = SCNVector3(x: -Float.pi/4, y: Float.pi/4, z: 0)
         directionalLightNode.light?.castsShadow = true
         scene.rootNode.addChildNode(directionalLightNode)
         
-        // 补光
+        // 补光 - 适中强度减少阴影对比度
         let fillLightNode = SCNNode()
         fillLightNode.light = SCNLight()
         fillLightNode.light?.type = .directional
-        fillLightNode.light?.color = UIColor(white: 0.8, alpha: 1.0)
-        fillLightNode.light?.intensity = 400
+        fillLightNode.light?.color = UIColor(white: 0.9, alpha: 1.0)
+        fillLightNode.light?.intensity = 300 // 降低到300
         fillLightNode.position = SCNVector3(x: -3, y: 3, z: 0)
         scene.rootNode.addChildNode(fillLightNode)
+        
+        // 第二个补光 - 轻微照明减少底部阴影
+        let fillLight2Node = SCNNode()
+        fillLight2Node.light = SCNLight()
+        fillLight2Node.light?.type = .directional
+        fillLight2Node.light?.color = UIColor(white: 0.8, alpha: 1.0)
+        fillLight2Node.light?.intensity = 200 // 降低到200
+        fillLight2Node.position = SCNVector3(x: 0, y: -2, z: 3) // 从下方照明
+        scene.rootNode.addChildNode(fillLight2Node)
+        
+        print("🔆 已设置平衡光照系统: 环境光=200, 主光=600, 补光1=300, 补光2=200")
     }
     
     // 下载远程3D模型文件
