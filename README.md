@@ -47,7 +47,7 @@ YiguiApp/ios/Yigui2/Yigui2
 └── Assets.xcassets/    # 图像资源
 ```
 
-### 服务器项目结构（请移步至“yigui-server”仓库，[![点击跳转](https://img.shields.io/badge/yigui_server-D7D3BF)](https://github.com/narmi924/yigui-server)）
+### 服务器项目结构（请移步至“yigui-server”仓库，[![点击跳转](https://img.shields.io/badge/yigui_server_仓库-D7D3BF)](https://github.com/narmi924/yigui-server)）
 ```
 ├── user-server/       # 用户认证服务
 ├── model-server/      # 3D模型处理服务
