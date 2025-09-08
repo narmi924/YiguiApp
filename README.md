@@ -1,4 +1,4 @@
-如有技术问题或功能建议，请联系Imranjan Mamtimin：[![点击联系](https://img.shields.io/badge/点击联系-8A2BE2)](https://www.imranjan.cn/about)。
+如有技术问题或功能建议，请联系Imranjan Mamtimin：[![点击联系](https://img.shields.io/badge/点击联系-ECEBDE)](https://www.imranjan.cn/about)。
 
 # **移动应用创新赛源码**
 
@@ -47,7 +47,7 @@ YiguiApp/ios/Yigui2/Yigui2
 └── Assets.xcassets/    # 图像资源
 ```
 
-### 服务器项目结构（请移步至“yigui-server”仓库，[![点击跳转](https://img.shields.io/badge/yigui_server-8A2BE2)](https://github.com/narmi924/yigui-server)）
+### 服务器项目结构（请移步至“yigui-server”仓库，[![点击跳转](https://img.shields.io/badge/yigui_server-D7D3BF)](https://github.com/narmi924/yigui-server)）
 ```
 ├── user-server/       # 用户认证服务
 ├── model-server/      # 3D模型处理服务
