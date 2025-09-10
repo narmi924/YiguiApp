@@ -24,7 +24,7 @@
 - **Web框架：** FastAPI（Python）
 - **数据库：** MySQL + SQLite
 - **服务器：** Ubuntu + Nginx
-- **3D处理：** Blender 3.6.5
+- **3D处理：** Blender 3.6.5（服务器端）+ Blender 4.4（本地端）
 - **文件格式：** GLB格式
 - **安全认证：** HTTPS + JWT认证
 - **异步任务：** Dramatiq + Redis
